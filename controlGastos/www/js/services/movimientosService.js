@@ -1,21 +1,20 @@
 serviciosModule.service("movimientosService", movimientosService);
 
 function movimientosService($q, $cordovaSQLite){
-  var _db;
+  var _bd;
 
   //Prepara la conexión
   var iniciarConexion = function(){
-    if(_db == null){
+    if(_bd == null){
         if(semillaBd != undefined){
           if(window.cordova)
             _bd = window.sqlitePlugin.openDatabase({ name: semillaBd.credenciales.nombre, location: 2, createFromLocation: 1 });
           else //Depurar en navegador
             _bd = window.openDatabase(semillaBd.credenciales.nombre , '1', 'default', semillaBd.credenciales.length);
-
           return true;
-        }else{
-          return false; //"No fue posible acceder a las credenciales de usuario");
-        }
+        }else
+          return false;
+
     } return true;
   }
 
@@ -35,11 +34,11 @@ function movimientosService($q, $cordovaSQLite){
 
   //Método general para consultar la bd
   var ejecutarQuery = function(query, parametros){
-    return  $cordovaSQLite.execute(_db, query, parametros);
+    return  $cordovaSQLite.execute(_bd, query, parametros);
   }
 
   return {
-    iniciarConexion: iniciarConexion
+    iniciarConexion: iniciarConexion,
     prepararBaseDatos: prepararBaseDatos
   }
 }

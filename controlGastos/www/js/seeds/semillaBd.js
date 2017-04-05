@@ -1,4 +1,4 @@
-var semillaBd : {
+var semillaBd = {
   credenciales : {
     nombre : "controlGastosBd.db",
     length : 2000000,
