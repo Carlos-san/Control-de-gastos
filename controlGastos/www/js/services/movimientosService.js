@@ -1,8 +1,24 @@
+var serviciosModule = angular.module('starter.services', ['ngCordova']);
+
 serviciosModule.service("movimientosService", movimientosService);
 
 function movimientosService($q, $cordovaSQLite){
   var _bd;
   var base = null;
+
+
+  var inicializar = function(){
+    var respuesta = $q.defer();
+    iniciarConexion();
+
+    prepararBaseDatos().then(function(data){
+      respuesta.resolve(true);
+    }, function(err){
+      respuesta.reject(err);
+    });
+
+    return respuesta.promise;
+  }
 
   //Prepara la conexión
   var iniciarConexion = function(){
@@ -43,15 +59,17 @@ function movimientosService($q, $cordovaSQLite){
     var respuesta = $q.defer();
 
     obtenerBaseActual().then(function(data){
-      var query = "INSERT INTO base (fecha_inicial, fecha_final, nombre, valor_total) "
-      query +=    "VALUES ('" + finicial+ "', '" + ffinal + "', '" + nombre + "', " + valor + ")";
+      if(Object.keys(data).length > 0){
+          var query = "INSERT INTO base (fecha_inicial, fecha_final, nombre, valor_total) "
+          query +=    "VALUES ('" + finicial+ "', '" + ffinal + "', '" + nombre + "', " + valor + ")";
 
-      ejecutarQuery(query).then(function(data){
-        respuesta.resolve(true);
-      }, function(err){
-        respuesta.reject('No fue posible registrar la base');
-      });
-    }, function(){
+          ejecutarQuery(query).then(function(data){
+            respuesta.resolve(true);
+          }, function(err){
+            respuesta.reject('No fue posible registrar la base');
+          });
+      }
+    }, function(err){
       respuesta.reject('Ya hay una base registrada para el periodo actual');
     })
     return respuesta.promise;
@@ -148,6 +166,7 @@ function movimientosService($q, $cordovaSQLite){
     //Inicializadores
     iniciarConexion: iniciarConexion,
     prepararBaseDatos: prepararBaseDatos,
+    inicializar: inicializar,
 
     //Comandos
     registrarBase: registrarBase,

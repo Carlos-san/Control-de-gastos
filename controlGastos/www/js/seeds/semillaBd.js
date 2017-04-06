@@ -1,6 +1,6 @@
 var semillaBd = {
   credenciales : {
-    nombre : "controlGastosBd2.db",
+    nombre : "controlGastosBd3.db",
     length : 2000000,
     version : "1.0"
   },

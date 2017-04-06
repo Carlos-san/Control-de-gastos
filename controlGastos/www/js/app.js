@@ -6,11 +6,11 @@
 // 'starter.controllers' is found in controllers.js
 var controlGastosModule = angular.module('starter',
   ['ionic', 'starter.controllers', 'ion-floating-menu',
-   'ui.utils.masks', 'ion-datetime-picker','angularMoment']);
-var controladoresModule = angular.module('starter.controllers', []);
-var serviciosModule = angular.module('starter.services', ['ngCordova']);
+   'ui.utils.masks', 'ion-datetime-picker','angularMoment', 'starter.services']);
+var controladoresModule = angular.module('starter.controllers', ['starter.services']);
 
-controlGastosModule.run(function($ionicPlatform) {
+
+controlGastosModule.run(function($ionicPlatform, movimientosService) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -23,5 +23,13 @@ controlGastosModule.run(function($ionicPlatform) {
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
+
+
+    movimientosService.inicializar().then(function(data){
+      if(!data)
+        $scope.estadoError = true;
+    }, function(err){
+        $scope.estadoError = true;
+    });
   });
 });
