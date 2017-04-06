@@ -1,5 +1,19 @@
 controladoresModule.controller('TestCtrl',TestCtrl);
 
-function TestCtrl($scope){}
+function TestCtrl($scope, movimientosService){
 
-TestCtrl.$inject = ['$scope'];
+  $scope.$on('creacionBase', function(){
+    debugger;
+    movimientosService.obtenerBaseActual().then(function(data){
+      debugger;
+      var base = data;
+    }, function(err){
+      alert("paila");
+    });
+  })
+
+
+
+}
+
+TestCtrl.$inject = ['$scope', 'movimientosService'];

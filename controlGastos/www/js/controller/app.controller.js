@@ -1,5 +1,7 @@
 controladoresModule.controller('AppCtrl',AppCtrl);
-function AppCtrl ($scope,$ionicModal){
+function AppCtrl ($scope, $ionicModal, movimientosService){
+  $scope.estadoError = false;
+
 
   function inicializaMontoBase(){
     $scope.montoBase = {
@@ -30,9 +32,16 @@ function AppCtrl ($scope,$ionicModal){
     });
   }
   $scope.agregarBase = function(){
-    console.log($scope.montoBase.valor);
-    console.log(moment($scope.montoBase.periodoInicial).format("DD/MM/YYYY"));
-    console.log(moment($scope.montoBase.periodoFinal).format("DD/MM/YYYY"));
+
+    movimientosService.registrarBase("Sin descripción",
+          moment($scope.montoBase.periodoInicial).format("DD/MM/YYYY"),
+          moment($scope.montoBase.periodoFinal).format("DD/MM/YYYY"),
+          $scope.montoBase.valor).then(function(data){
+      alert("Si pude!");
+      $scope.$broadcast('creacionBase');
+    }, function(err){
+      alert("No fue posible registrar la base");
+    });
   }
   $scope.cerrarBase = function() {$scope.modalBase.hide();};
   /*----------------------------------------*/
@@ -70,4 +79,4 @@ function AppCtrl ($scope,$ionicModal){
   inicializaMontoBase();
   inicializaSalida();
 }
-AppCtrl.$inject = ['$scope','$ionicModal'];
+AppCtrl.$inject = ['$scope','$ionicModal', 'movimientosService'];
