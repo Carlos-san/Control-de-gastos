@@ -1,4 +1,10 @@
 <ion-side-menus enable-menu-with-back-views="false">
+  <ion-floating-menu>
+    <ion-floating-item icon="ion-cash" click="bntAgregarBase()" text="Agrega base" data-modal="modal-5"></ion-floating-item>
+    <ion-floating-item icon="ion-ios-cloud-upload" click="agregarEntrada()" text="Agrega entrada"></ion-floating-item>
+    <ion-floating-item icon="ion-ios-cloud-download" click="agregarSalida()" text="Agrega salida"></ion-floating-item>
+    <ion-floating-item icon="ion-ios-game-controller-b" click="crearActividad()" text="Crea una actividad"></ion-floating-item>
+  </ion-floating-menu>
   <ion-side-menu-content>
     <ion-nav-bar class="bar-stable">
       <ion-nav-back-button>
@@ -10,10 +16,6 @@
       </ion-nav-buttons>
     </ion-nav-bar>
     <ion-nav-view name="menuContent">
-      <ion-floating-menu backdrop="true">
-          <ion-floating-item ng-click="event1()" icon="ion-camera" text="Camera"></ion-floating-item>
-          <ion-floating-item  ng-if="false" icon="ion-person" text="Person" click="myEvent()"></ion-floating-item>
-      </ion-floating-menu>
     </ion-nav-view>
   </ion-side-menu-content>
 
