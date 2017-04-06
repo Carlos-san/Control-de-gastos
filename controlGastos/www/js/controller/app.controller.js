@@ -1,15 +1,18 @@
 controladoresModule.controller('AppCtrl',AppCtrl);
 function AppCtrl ($scope,$ionicModal){
 
-
-  /*----------Registro de monto base----------*/
-  $scope.montoBase = {
-    valor: 0,
-    periodoInicial: new Date(),
-    periodoFinal: new Date()
+  function inicializaMontoBase(){
+    $scope.montoBase = {
+      valor: 0,
+      periodoInicial: new Date(),
+      periodoFinal: new Date()
+    }
   }
 
+  /*----------Registro de monto base----------*/
+
   $scope.bntAgregarBase = function () {
+    inicializaMontoBase();
     $ionicModal.fromTemplateUrl('templates/modal/agregar-base.html', {
       scope: $scope,
       animation: 'fade-in-scale'
@@ -35,5 +38,6 @@ function AppCtrl ($scope,$ionicModal){
   $scope.crearActividad = function () {
     alert("Agrega una actividad");
   }
+  inicializaMontoBase();
 }
 AppCtrl.$inject = ['$scope','$ionicModal'];
