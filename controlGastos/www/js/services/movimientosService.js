@@ -143,13 +143,13 @@ function movimientosService($q, $cordovaSQLite){
     return respuesta.promise;
   }
 
-  var obtenerMovimientosPorBase = function(){
+  var obtenerMovimientosPorBase = function(idBase){
     var respuesta = $q.defer();
 
     if(base != null){
         var query = "SELECT m.id, m.valor, m.tipo, m.fecha, m.descripcion, a.nombre FROM movimientos m ";
         query +=    "LEFT JOIN actividad a ON a.ID = m.id_actividad "
-        query +=    "WHERE m.id_base = " + base.id;
+        query +=    "WHERE m.id_base = " + idBase + " order by fecha DESC";
 
         ejecutarQuery(query).then(function(data){
           respuesta.resolve(data.rows);
