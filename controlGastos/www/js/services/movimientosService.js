@@ -76,10 +76,10 @@ function movimientosService($q, $cordovaSQLite){
   }
 
   //registra un movimiento de tipo: Entrada o Salida
-  var registrarMovimiento = function(idBase, tipo, valor, detalle, idActividad){
+  var registrarMovimiento = function(tipo, valor, detalle, idActividad){
     var respuesta = $q.defer();
     var query = "INSERT INTO movimientos (valor, tipo, fecha, descripcion, id_actividad, id_base) ";
-    query +=    " VALUES(" + valor + ",'" + tipo + "','" + formatearFecha() + "','" + detalle + "', " + idActividad + "," + idBase + ")";
+    query +=    " VALUES(" + valor + ",'" + tipo + "','" + formatearFecha() + "','" + detalle + "', " + idActividad + "," + base.id + ")";
 
     ejecutarQuery(query).then(function(data){
       respuesta.resolve(true);

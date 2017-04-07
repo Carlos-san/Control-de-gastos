@@ -1,5 +1,5 @@
 controladoresModule.controller('AppCtrl',AppCtrl);
-function AppCtrl ($scope, $ionicModal, movimientosService){
+function AppCtrl ($scope, $ionicModal, movimientosService, generalesService){
   $scope.estadoError = false;
 
 
@@ -49,12 +49,11 @@ function AppCtrl ($scope, $ionicModal, movimientosService){
     });
   }
   $scope.agregarBase = function(){
-
     movimientosService.registrarBase("Sin descripción",
     moment($scope.montoBase.periodoInicial).format("DD/MM/YYYY"),
     moment($scope.montoBase.periodoFinal).format("DD/MM/YYYY"),
     $scope.montoBase.valor).then(function(data){
-      alert("Si pude!");
+      generalesService.generarMensajeCorto("Base por periodo realizada correctamente");
       $scope.$broadcast('creacionBase');
     }, function(err){
       alert("No fue posible registrar la base");
@@ -75,7 +74,15 @@ function AppCtrl ($scope, $ionicModal, movimientosService){
     });
   }
   $scope.agregarSalida = function () {
-    console.log($scope.montoSalida);
+    if($scope.montoSalida.valor > 0 || $scope.montoSalida.detalle.length > 0){
+      movimientosService.registrarMovimiento("Salida", $scope.montoSalida.valor, $scope.montoSalida.detalle, null).then(function(data){
+        generalesService.generarMensajeCorto("Movimiento realizado con exito");
+        $scope.$broadcast('actualizarBaseActual');
+      }, function(err){
+        generalesService.generarMensajeCorto("Se produjo un error al realizar el movimiento");
+      });
+    }else
+      alert("Poner un mensaje");
   }
   $scope.cerrarSalida = function() {$scope.modalSalida.hide();};
   /*----------------------------------------*/
@@ -92,7 +99,15 @@ function AppCtrl ($scope, $ionicModal, movimientosService){
     });
   }
   $scope.agregarEntrada = function () {
-    console.log($scope.montoEntrada);
+    if($scope.montoEntrada.valor > 0 || $scope.montoEntrada.detalle.length > 0){
+      movimientosService.registrarMovimiento("Entrada", $scope.montoEntrada.valor, $scope.montoEntrada.detalle, null).then(function(data){
+        generalesService.generarMensajeCorto("Movimiento realizado con exito");
+        $scope.$broadcast('actualizarBaseActual');
+      }, function(err){
+        generalesService.generarMensajeCorto("Se produjo un error al realizar el movimiento");
+      });
+    }else
+      alert("Poner un mensaje");
   }
   $scope.cerrarEntrada = function() {$scope.modalEntrada.hide();};
   /*----------------------------------------*/
@@ -119,4 +134,4 @@ function AppCtrl ($scope, $ionicModal, movimientosService){
   inicializaEntrada();
   inicializaActividad();
 }
-AppCtrl.$inject = ['$scope','$ionicModal', 'movimientosService'];
+AppCtrl.$inject = ['$scope','$ionicModal', 'movimientosService', 'generalesService'];
