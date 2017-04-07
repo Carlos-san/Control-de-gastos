@@ -21,16 +21,16 @@ function movimientosService($q, $cordovaSQLite){
   }
 
   //Prepara la conexión
- var iniciarConexion = function(){
-   if(_bd == null){
-       if(semillaBd != undefined){
-         if(window.cordova)
-           _bd = $cordovaSQLite.openDB({ name: semillaBd.credenciales.nombre, location: 2, createFromLocation: 1 });
-         else //Depurar en navegador
-           _bd = window.openDatabase(semillaBd.credenciales.nombre , '1', 'default', semillaBd.credenciales.length);
-         return true;
-       }else
-         return false;
+  var iniciarConexion = function(){
+    if(_bd == null){
+        if(semillaBd != undefined){
+          if(window.cordova)
+            _bd = $cordovaSQLite.openDB({ name: semillaBd.credenciales.nombre, location: "default"});            
+          else //Depurar en navegador
+            _bd = window.openDatabase(semillaBd.credenciales.nombre , '1', 'default', semillaBd.credenciales.length);
+          return true;
+        }else
+          return false;
 
    } return true;
  }
