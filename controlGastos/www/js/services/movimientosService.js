@@ -76,10 +76,10 @@ function movimientosService($q, $cordovaSQLite){
   }
 
   //registra un movimiento de tipo: Entrada o Salida
-  var registrarMovimiento = function(idBase, tipo, valor, detalle, idActividad){
+  var registrarMovimiento = function(tipo, valor, detalle, idActividad){
     var respuesta = $q.defer();
     var query = "INSERT INTO movimientos (valor, tipo, fecha, descripcion, id_actividad, id_base) ";
-    query +=    " VALUES(" + valor + ",'" + tipo + "','" + formatearFecha() + "','" + detalle + "', " + idActividad + "," + idBase + ")";
+    query +=    " VALUES(" + valor + ",'" + tipo + "','" + formatearFecha() + "','" + detalle + "', " + idActividad + "," + base.id + ")";
 
     ejecutarQuery(query).then(function(data){
       respuesta.resolve(true);
@@ -104,7 +104,10 @@ function movimientosService($q, $cordovaSQLite){
         base = data.rows[0];
         respuesta.resolve(data.rows[0]);
       }else
-        respuesta.resolve({});
+        respuesta.resolve({
+          id: 0,
+          valor_total: 0
+        });
     }, function(err){
       respuesta.reject(false);
     });
@@ -140,13 +143,13 @@ function movimientosService($q, $cordovaSQLite){
     return respuesta.promise;
   }
 
-  var obtenerMovimientosPorBase = function(){
+  var obtenerMovimientosPorBase = function(idBase){
     var respuesta = $q.defer();
 
     if(base != null){
         var query = "SELECT m.id, m.valor, m.tipo, m.fecha, m.descripcion, a.nombre FROM movimientos m ";
         query +=    "LEFT JOIN actividad a ON a.ID = m.id_actividad "
-        query +=    "WHERE m.id_base = " + base.id;
+        query +=    "WHERE m.id_base = " + idBase + " order by fecha DESC";
 
         ejecutarQuery(query).then(function(data){
           respuesta.resolve(data.rows);

@@ -1,0 +1,8 @@
+<div class="list">
+  <div class="item item-text-wrap item-avatar item-icon-right" ng-repeat="movimiento in movimientos">
+    <i class="icon ion-ios-minus-outline" ng-if="movimiento.tipo == 'Salida'"></i>
+    <i class="icon ion-ios-plus-outline" ng-if="movimiento.tipo == 'Entrada'"></i>
+    {{movimiento.descripcion}} <br />
+    $ {{movimiento.valor}}
+  </div>
+</div>

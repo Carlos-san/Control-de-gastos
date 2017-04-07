@@ -28,6 +28,9 @@ controlGastosModule.run(function($ionicPlatform, movimientosService) {
     movimientosService.inicializar().then(function(data){
       if(!data)
         $scope.estadoError = true;
+      // else {
+      //   $scope.$broadcast('creacionBase');
+      // }
     }, function(err){
         $scope.estadoError = true;
     });
