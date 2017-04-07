@@ -104,7 +104,10 @@ function movimientosService($q, $cordovaSQLite){
         base = data.rows[0];
         respuesta.resolve(data.rows[0]);
       }else
-        respuesta.resolve({});
+        respuesta.resolve({
+          id: 0,
+          valor_total: 0
+        });
     }, function(err){
       respuesta.reject(false);
     });

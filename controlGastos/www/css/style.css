@@ -28,4 +28,38 @@ font-family: 'Calculator';
     max-height: 40px;
     width: 100%;
     border-radius: 4px;
-  }
+}
+
+.base-class.ng-hide {
+  opacity: 0;
+}
+
+.base-class.ng-hide-add,
+.base-class.ng-hide-remove  {
+  transition: all 0.5s linear;
+}
+
+.control-salida {
+  border-color: #e6b500;
+  background-color: #ffc900;
+  -color: #fff;
+}
+
+.control-entrada {
+  border-color: #28a54c;
+  background-color: #83D6DE;
+  -color: #fff;
+}
+
+.estado-base-ok {
+  color: #fff;
+  background-color: #71BA51;
+}
+
+.estado-base-regular {
+  background-color: #FEC606;
+}
+
+.estado-base-mal {
+  background-color: #E75926;
+}
