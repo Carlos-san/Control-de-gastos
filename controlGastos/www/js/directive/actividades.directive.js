@@ -1,4 +1,4 @@
-controladoresModule.directive('actividadesDir',actividadesDir);
+controladoresDirective.directive('actividadesDir',actividadesDir);
 
 function actividadesDir(){
   return{
@@ -6,6 +6,8 @@ function actividadesDir(){
     scope:{
       actividades: '=actividades'
     },
-    templateUrl:'../../templates/directive/actividades.html'
+    templateUrl: 'templates/directive/actividades.html',
+    replace: false,
+    transclude: true
   }
 }

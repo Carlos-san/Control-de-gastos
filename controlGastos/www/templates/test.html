@@ -1,15 +1,20 @@
 <ion-view view-title="Dashboard">
   <ion-content>
-    <bases-dir id-base='base.id' cantidad-total='base.valor_total' ng-show="base.id != 0"></bases-dir>
+    <div class="item" ng-show="base.id != 0">
+      <bases-dir id-base='base.id' cantidad-total='base.valor_total' ></bases-dir>
+    </div>
 
-    <div class="item item-divider">
+    <div class="item item-divider" ng-show="actividades.length>0">
       Actividades
     </div>
-    <actividades-dir actividades="actividades"></actividades-dir>
-
+    <div class="item" ng-show="actividades.length>0">
+      <actividades-dir actividades="actividades"></actividades-dir>
+    </div>
     <div class="item item-divider">
       Movimientos
     </div>
-    <movimientos-dir id-base="base.id"></movimientos-dir>
+    <div class="item">
+      <movimientos-dir id-base="base.id"></movimientos-dir>
+    </div>
   </ion-content>
 </ion-view>

@@ -5,10 +5,10 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
 var controlGastosModule = angular.module('starter',
-  ['ionic', 'starter.controllers', 'ion-floating-menu',
+  ['ionic', 'starter.controllers','starter.directives','ion-floating-menu',
    'ui.utils.masks', 'ion-datetime-picker','angularMoment', 'starter.services']);
 var controladoresModule = angular.module('starter.controllers', ['starter.services']);
-
+var controladoresDirective = angular.module('starter.directives', ['ionic']);
 
 controlGastosModule.run(function($ionicPlatform, movimientosService) {
   $ionicPlatform.ready(function() {
@@ -23,7 +23,6 @@ controlGastosModule.run(function($ionicPlatform, movimientosService) {
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
-
 
     movimientosService.inicializar().then(function(data){
       if(!data)
