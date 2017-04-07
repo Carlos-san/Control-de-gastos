@@ -16,7 +16,18 @@ controlGastosModule.config(function($stateProvider, $urlRouterProvider) {
         controller: 'TestCtrl'
       }
     }
-  });
+  })
+  .state('app.detalle-actividad', {
+    url: '/detalle-actividad/:id',
+    views: {
+      'menuContent': {
+        url: '/',
+        templateUrl: 'templates/directive/detalle-actividad.html',
+        controller: 'ActividadesCtrl'
+      }
+    }
+  })
+  ;
 
   $urlRouterProvider.otherwise('/app/test');
 });

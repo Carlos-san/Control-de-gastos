@@ -10,17 +10,34 @@ function AppCtrl ($scope, $ionicModal, movimientosService){
       periodoFinal: new Date()
     }
   }
-
   function inicializaSalida(){
     $scope.montoSalida = {
       valor: 0,
       valorMax:0,
+      detalle:'',
+      tipoActividad: '',
+      actividades: [{id: 1, nombre: 'Boyacá'},{id: 2, nombre: 'Hoteles'}],
+      fecha: new Date()
+    }
+  }
+  function inicializaEntrada(){
+    $scope.montoEntrada = {
+      valor: 0,
       detalle:"",
       fecha: new Date()
     }
   }
-  /*----------Registro de monto base----------*/
+  function inicializaActividad(){
+    $scope.nuevaActividad = {
+      nombre: '',
+      descripcion: '',
+      tipoActividad: '',
+      tipos: [{id:1,nombre:'Vacaciones'},{id:2,nombre:'Hospedaje'}],
+      fecha: new Date()
+    }
+  }
 
+  /*----------Registro de monto base----------*/
   $scope.bntAgregarBase = function () {
     inicializaMontoBase();
     $ionicModal.fromTemplateUrl('templates/modal/agregar-base.html', {
@@ -34,9 +51,9 @@ function AppCtrl ($scope, $ionicModal, movimientosService){
   $scope.agregarBase = function(){
 
     movimientosService.registrarBase("Sin descripción",
-          moment($scope.montoBase.periodoInicial).format("DD/MM/YYYY"),
-          moment($scope.montoBase.periodoFinal).format("DD/MM/YYYY"),
-          $scope.montoBase.valor).then(function(data){
+    moment($scope.montoBase.periodoInicial).format("DD/MM/YYYY"),
+    moment($scope.montoBase.periodoFinal).format("DD/MM/YYYY"),
+    $scope.montoBase.valor).then(function(data){
       alert("Si pude!");
       $scope.$broadcast('creacionBase');
     }, function(err){
@@ -47,13 +64,8 @@ function AppCtrl ($scope, $ionicModal, movimientosService){
   /*----------------------------------------*/
 
   /*----------Registro de monto salida----------*/
-
   $scope.bntAgregarSalida = function () {
     inicializaSalida();
-    // Monto actual
-
-    $scope.montoSalida.valorMax = 10000;
-    console.log($scope.montoSalida);
     $ionicModal.fromTemplateUrl('templates/modal/agregar-salida.html', {
       scope: $scope,
       animation: 'fade-in-scale'
@@ -63,20 +75,48 @@ function AppCtrl ($scope, $ionicModal, movimientosService){
     });
   }
   $scope.agregarSalida = function () {
-    console.log($scope.montoSalida.valor);
-    console.log($scope.montoSalida.valorMax);
-    console.log($scope.montoSalida.fecha);
-    console.log($scope.montoSalida.detalle);
+    console.log($scope.montoSalida);
   }
   $scope.cerrarSalida = function() {$scope.modalSalida.hide();};
   /*----------------------------------------*/
+
+  /*----------Registro de monto entrada----------*/
+  $scope.bntAgregarEntrada = function () {
+    inicializaEntrada();
+    $ionicModal.fromTemplateUrl('templates/modal/agregar-entrada.html', {
+      scope: $scope,
+      animation: 'fade-in-scale'
+    }).then(function(modal) {
+      $scope.modalEntrada = modal;
+      $scope.modalEntrada.show();
+    });
+  }
   $scope.agregarEntrada = function () {
-    alert("Agrega una entrada");
+    console.log($scope.montoEntrada);
   }
-  $scope.crearActividad = function () {
-    alert("Agrega una actividad");
+  $scope.cerrarEntrada = function() {$scope.modalEntrada.hide();};
+  /*----------------------------------------*/
+
+  /*----------Registro de monto salida----------*/
+  $scope.bntAgregarActividad = function () {
+    inicializaSalida();
+    $ionicModal.fromTemplateUrl('templates/modal/agregar-actividad.html', {
+      scope: $scope,
+      animation: 'fade-in-scale'
+    }).then(function(modal) {
+      $scope.modalActividad = modal;
+      $scope.modalActividad.show();
+    });
   }
+  $scope.agregarActividad = function () {
+    console.log($scope.nuevaActividad);
+  }
+  $scope.cerrarActividad = function() {$scope.modalActividad.hide();};
+  /*----------------------------------------*/
+
   inicializaMontoBase();
   inicializaSalida();
+  inicializaEntrada();
+  inicializaActividad();
 }
 AppCtrl.$inject = ['$scope','$ionicModal', 'movimientosService'];
