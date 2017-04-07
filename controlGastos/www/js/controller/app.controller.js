@@ -10,7 +10,6 @@ function AppCtrl ($scope, $ionicModal, movimientosService){
       periodoFinal: new Date()
     }
   }
-
   function inicializaSalida(){
     $scope.montoSalida = {
       valor: 0,
@@ -19,6 +18,15 @@ function AppCtrl ($scope, $ionicModal, movimientosService){
       fecha: new Date()
     }
   }
+  function inicializaActividad(){
+    $scope.nuevaActividad = {
+      nombre: '',
+      descripcion: '',
+      tipo: '',
+      fecha: new Date()
+    }
+  }
+
   /*----------Registro de monto base----------*/
 
   $scope.bntAgregarBase = function () {
@@ -34,9 +42,9 @@ function AppCtrl ($scope, $ionicModal, movimientosService){
   $scope.agregarBase = function(){
 
     movimientosService.registrarBase("Sin descripción",
-          moment($scope.montoBase.periodoInicial).format("DD/MM/YYYY"),
-          moment($scope.montoBase.periodoFinal).format("DD/MM/YYYY"),
-          $scope.montoBase.valor).then(function(data){
+    moment($scope.montoBase.periodoInicial).format("DD/MM/YYYY"),
+    moment($scope.montoBase.periodoFinal).format("DD/MM/YYYY"),
+    $scope.montoBase.valor).then(function(data){
       alert("Si pude!");
       $scope.$broadcast('creacionBase');
     }, function(err){
@@ -50,10 +58,6 @@ function AppCtrl ($scope, $ionicModal, movimientosService){
 
   $scope.bntAgregarSalida = function () {
     inicializaSalida();
-    // Monto actual
-
-    $scope.montoSalida.valorMax = 10000;
-    console.log($scope.montoSalida);
     $ionicModal.fromTemplateUrl('templates/modal/agregar-salida.html', {
       scope: $scope,
       animation: 'fade-in-scale'
@@ -70,13 +74,29 @@ function AppCtrl ($scope, $ionicModal, movimientosService){
   }
   $scope.cerrarSalida = function() {$scope.modalSalida.hide();};
   /*----------------------------------------*/
+
   $scope.agregarEntrada = function () {
     alert("Agrega una entrada");
   }
-  $scope.crearActividad = function () {
-    alert("Agrega una actividad");
+
+  /*----------Registro de monto salida----------*/
+  $scope.bntAgregarActividad = function () {
+    inicializaSalida();
+    $ionicModal.fromTemplateUrl('templates/modal/agregar-actividad.html', {
+      scope: $scope,
+      animation: 'fade-in-scale'
+    }).then(function(modal) {
+      $scope.modalActividad = modal;
+      $scope.modalActividad.show();
+    });
   }
+  $scope.agregarActividad = function () {
+    console.log($scope.nuevaActividad);
+  }
+  $scope.cerrarActividad = function() {$scope.modalActividad.hide();};
+  /*----------------------------------------*/
   inicializaMontoBase();
   inicializaSalida();
+  inicializaActividad();
 }
 AppCtrl.$inject = ['$scope','$ionicModal', 'movimientosService'];
