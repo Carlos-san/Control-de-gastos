@@ -8,9 +8,13 @@
       <div class="item item-text-wrap">
         <input type="text" name="nuevaActividad" ng-model="nuevaActividad.nombre" placeholder="Ingresa el nombre de actividad" style="width:100%!important" maxlength="100">
       </div>
-      <div class="item item-text-wrap">
-        Tipo
-      </div>
+      <label class="item item-input item-select">
+        <div class="input-label">
+          Tipo
+        </div>
+        <select ng-model="nuevaActividad.tipoActividad" ng-options="act.nombre for act in nuevaActividad.tipos">
+        </select>
+      </label>
       <div class="item item-text-wrap">
         <textarea ng-model="nuevaActividad.descripcion" style="width:100%;" placeholder="Escribe una descripcion" maxlength="300"></textarea>
       </div>
