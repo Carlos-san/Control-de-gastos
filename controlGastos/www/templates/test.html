@@ -2,6 +2,14 @@
   <ion-content>
     <bases-dir id-base='base.id' cantidad-total='base.valor_total' ng-show="base.id != 0"></bases-dir>
 
+    <div class="item item-divider">
+      Actividades
+    </div>
     <actividades-dir actividades="actividades"></actividades-dir>
+
+    <div class="item item-divider">
+      Movimientos
+    </div>
+    <movimientos-dir id-base="base.id"></movimientos-dir>
   </ion-content>
 </ion-view>
