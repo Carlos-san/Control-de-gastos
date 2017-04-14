@@ -55,6 +55,7 @@ function AppCtrl ($scope, $ionicModal, movimientosService, generalesService){
     $scope.montoBase.valor).then(function(data){
       generalesService.generarMensajeCorto("Base por periodo realizada correctamente");
       $scope.$broadcast('creacionBase');
+      $scope.modalBase.hide();
     }, function(err){
       alert("No fue posible registrar la base");
     });
@@ -77,6 +78,7 @@ function AppCtrl ($scope, $ionicModal, movimientosService, generalesService){
     if($scope.montoSalida.valor > 0 || $scope.montoSalida.detalle.length > 0){
       movimientosService.registrarMovimiento("Salida", $scope.montoSalida.valor, $scope.montoSalida.detalle, null).then(function(data){
         generalesService.generarMensajeCorto("Movimiento realizado con exito");
+        $scope.modalSalida.hide();
         $scope.$broadcast('actualizarBaseActual');
         $scope.$broadcast('actualizarMovimientosBase');
       }, function(err){
@@ -105,6 +107,7 @@ function AppCtrl ($scope, $ionicModal, movimientosService, generalesService){
         generalesService.generarMensajeCorto("Movimiento realizado con exito");
         $scope.$broadcast('actualizarBaseActual');
         $scope.$broadcast('actualizarMovimientosBase');
+        $scope.modalEntrada.hide();
       }, function(err){
         generalesService.generarMensajeCorto("Se produjo un error al realizar el movimiento");
       });

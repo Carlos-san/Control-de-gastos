@@ -1,6 +1,8 @@
 controladoresModule.controller('TestCtrl',TestCtrl);
 
 function TestCtrl($scope, movimientosService){
+  $scope.data = {};
+
   $scope.base = {
     id: 0,
     valor_total: 0
@@ -14,6 +16,7 @@ function TestCtrl($scope, movimientosService){
   });
 
   function creacionBase(){
+    console.log("ahora paso aqui");
     movimientosService.obtenerBaseActual().then(function(data){
       $scope.base = data;
     }, function(err){
@@ -21,7 +24,18 @@ function TestCtrl($scope, movimientosService){
     });
   }
 
+  //TODO: Quitar cuando se compile
   creacionBase();
+  document.addEventListener("baseDatosCreada", function() {
+    movimientosService.obtenerBaseActual().then(function(data){
+      $scope.base = data;
+    }, function(err){
+      alert("paila");
+    });
+  }, false);
+
+
+  // setTimeout(function(){ creacionBase() }, 5000);
 }
 
 TestCtrl.$inject = ['$scope', 'movimientosService'];
