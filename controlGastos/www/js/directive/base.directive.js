@@ -1,4 +1,4 @@
-controladoresModule.directive("basesDir", basesDir);
+controladoresDirective.directive("basesDir", basesDir);
 
 function basesDir(){
   return {

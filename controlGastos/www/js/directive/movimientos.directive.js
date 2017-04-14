@@ -1,4 +1,4 @@
-controladoresModule.directive("movimientosDir", movimientosDir);
+controladoresDirective.directive("movimientosDir", movimientosDir);
 
 function movimientosDir(){
   return {
