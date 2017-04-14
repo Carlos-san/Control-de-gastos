@@ -24,6 +24,7 @@ function verBaseController($scope, movimientosService){
 
   $scope.$watch('idBase', function(newie){
     if(newie != undefined && newie != 0){
+      alert("Tenemos base");
       obtenerValoresBase(newie);
     }
   });

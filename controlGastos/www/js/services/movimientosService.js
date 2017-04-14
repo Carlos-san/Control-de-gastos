@@ -2,8 +2,8 @@ var serviciosModule = angular.module('starter.services', ['ngCordova']);
 
 serviciosModule.service("movimientosService", movimientosService);
 
-function movimientosService($q, $cordovaSQLite){
-  var _bd;
+  function movimientosService($q, $cordovaSQLite){
+
   var base = null;
 
 
@@ -24,9 +24,9 @@ function movimientosService($q, $cordovaSQLite){
   var iniciarConexion = function(){
     if(_bd == null){
         if(semillaBd != undefined){
-          if(window.cordova)
-            _bd = $cordovaSQLite.openDB({ name: semillaBd.credenciales.nombre, location: "default"});            
-          else //Depurar en navegador
+          if(window.cordova){
+            _bd = $cordovaSQLite.openDB({ name: semillaBd.credenciales.nombre, location: 1});
+          }else //Depurar en navegador
             _bd = window.openDatabase(semillaBd.credenciales.nombre , '1', 'default', semillaBd.credenciales.length);
           return true;
         }else
@@ -98,6 +98,7 @@ function movimientosService($q, $cordovaSQLite){
     var query = "SELECT id, valor_total FROM base b ";
     query +=    "WHERE '" + fechaActual + "' > b.fecha_inicial ";
     query +=    "AND '" + fechaActual + "' < b.fecha_final";
+
 
     ejecutarQuery(query).then(function(data){
       if(data != undefined && data.rows.length > 0){
