@@ -1,20 +1,14 @@
 // Ionic Starter App
-var _bd;
-// angular.module is a global place for creating, registering and retrieving Angular modules
-// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
-// the 2nd parameter is an array of 'requires'
-// 'starter.controllers' is found in controllers.js
-var controlGastosModule = angular.module('starter',
-  ['ionic', 'starter.controllers','starter.directives','ion-floating-menu',
-   'ui.utils.masks', 'ion-datetime-picker','angularMoment', 'starter.services']);
-var controladoresModule = angular.module('starter.controllers', ['starter.services']);
-var controladoresDirective = angular.module('starter.directives', ['ionic']);
 
-controlGastosModule.run(function($ionicPlatform, movimientosService) {
+var db;
+
+var modulo = angular.module('starter', ['ionic', 'ngCordova'])
+
+.run(function($ionicPlatform, $cordovaSQLite) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
-    if (window.cordova && window.cordova.plugins.Keyboard) {
+    if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
       cordova.plugins.Keyboard.disableScroll(true);
 
@@ -24,17 +18,68 @@ controlGastosModule.run(function($ionicPlatform, movimientosService) {
       StatusBar.styleDefault();
     }
 
-    movimientosService.inicializar().then(function(data){
-      if(!data)
-        alert("Se produjo un error");
-      else{
-         document.dispatchEvent(new Event("baseDatosCreada"));
-       }
-      // else {
-      //   $scope.$broadcast('creacionBase');
-      // }
-    }, function(err){
-        $scope.estadoError = true;
-    });
+    db = $cordovaSQLite.openDB({ name: "mia.db", location: 1});
+    // $cordovaSQLite.execute(db, "CREATE TABLE IF NOT EXISTS people (id integer primary key, firstname text, lastname text)");
   });
+})
+
+.config(function($stateProvider, $urlRouterProvider) {
+
+  // Ionic uses AngularUI Router which uses the concept of states
+  // Learn more here: https://github.com/angular-ui/ui-router
+  // Set up the various states which the app can be in.
+  // Each state's controller can be found in controllers.js
+  $stateProvider
+
+  // setup an abstract state for the tabs directive
+    .state('tab', {
+    url: '/tab',
+    abstract: true,
+    templateUrl: 'templates/tabs.html'
+  })
+
+  // Each tab has its own nav history stack:
+
+  .state('tab.dash', {
+    url: '/dash',
+    views: {
+      'tab-dash': {
+        templateUrl: 'templates/tab-dash.html',
+        controller: 'DashCtrl'
+      }
+    }
+  })
+
+  .state('tab.chats', {
+      url: '/chats',
+      views: {
+        'tab-chats': {
+          templateUrl: 'templates/tab-chats.html',
+          controller: 'ChatsCtrl'
+        }
+      }
+    })
+    .state('tab.chat-detail', {
+      url: '/chats/:chatId',
+      views: {
+        'tab-chats': {
+          templateUrl: 'templates/chat-detail.html',
+          controller: 'ChatDetailCtrl'
+        }
+      }
+    })
+
+  .state('tab.account', {
+    url: '/account',
+    views: {
+      'tab-account': {
+        templateUrl: 'templates/tab-account.html',
+        controller: 'AccountCtrl'
+      }
+    }
+  });
+
+  // if none of the above states are matched, use this as the fallback
+  $urlRouterProvider.otherwise('/tab/dash');
+
 });

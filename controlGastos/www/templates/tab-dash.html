@@ -1,0 +1,17 @@
+<ion-view view-title="Dashboard">
+  <ion-content class="padding">
+    <div class="col-md-12">
+      <button class="button button-full button-positive" ng-click="cargarDatos()">
+        Agrega datos a la base de datos
+      </button>
+
+      <button class="button button-full button-positive" ng-click="makeItBase()">
+        crea una base
+      </button>
+
+      <div class="item" ng-show="base.id != 0">
+        <bases-dir id-base='base.id' cantidad-total='base.valor_total' ></bases-dir>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

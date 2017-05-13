@@ -1,34 +1,4 @@
-@font-face {
-font-family: 'Calculator';
-    src: url("../lib/ionic/fonts/Calculator.eot");
-    src: url('../lib/ionic/fonts/Calculator.eot?#iefix') format('embedded-opentype'),
-         url('../lib/ionic/fonts/Calculator.woff') format('woff'),
-         url('../lib/ionic/fonts/Calculator.ttf') format('truetype'),
-         url('../lib/ionic/fonts/Calculator.svg#SansumiRegular') format('svg');
-}
-
-.texto-calculadora {
-  width:100%!important;
-  font-family: 'Calculator'!important;
-  font-size: 40px!important;
-  text-align: right;
-}
-
-.control-app {
-  background-color: rgb(42, 201, 170);
-  color: #FFF!important;
-}
-
-.item-avatar i:first-child, .item-avatar .item-img {
-    position: absolute;
-    top: 15px;
-    left: 15px;
-    font-size: 46px;
-    max-width: 40px;
-    max-height: 40px;
-    width: 100%;
-    border-radius: 4px;
-}
+/* Empty. Add your own CSS if you like */
 
 .base-class.ng-hide {
   opacity: 0;
