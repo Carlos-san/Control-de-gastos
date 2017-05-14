@@ -27,7 +27,7 @@ modulo.service("movimientosService", movimientosService);
     var respuesta = $q.defer();
 
     for(var i = 0; i < semillaBd.creacionTablas.length; i++){
-      ejecutarQuery(semillaBd.creacionTablas[i]).then(function(){ }, function(){
+      ejecutarQuery(semillaBd.creacionTablas[semillaBd.version][i]).then(function(){ }, function(){
         respuesta.reject("No fue posible preparar la base de datos");
         return respuesta.promise;
       });

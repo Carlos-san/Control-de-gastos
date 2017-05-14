@@ -18,8 +18,17 @@ var modulo = angular.module('starter', ['ionic', 'ngCordova'])
       StatusBar.styleDefault();
     }
 
+    //Creación inicial de tablas e inicialización de base de datos
     db = $cordovaSQLite.openDB({ name: "mia.db", location: 1});
-    // $cordovaSQLite.execute(db, "CREATE TABLE IF NOT EXISTS people (id integer primary key, firstname text, lastname text)");
+    db.transaction(function(tx) {
+      for(var i = 0; i < semillaBd.creacionTablas[semillaBd.version].length; i++){
+          tx.executeSql('semillaBd.creacionTablas[semillaBd.version][i]');
+      }
+    }, function(succ) {
+      alert('Base de datos cargada con exito');
+    }, function(err) {
+      console.log('Error');
+    });
   });
 })
 

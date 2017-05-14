@@ -1,16 +1,42 @@
 <ion-view view-title="Dashboard">
   <ion-content class="padding">
     <div class="col-md-12">
-      <button class="button button-full button-positive" ng-click="cargarDatos()">
+      <!-- <button class="button button-full button-positive" ng-click="cargarDatos()">
         Agrega datos a la base de datos
-      </button>
+      </button> -->
+      <div class="row">
+        <div class="col col-50">
+          <button class="button button-full button-positive" ng-click="makeItBase()">
+            Nueva base
+          </button>
+        </div>
+        <div class="col col-50">
+          <button class="button button-full button-balanced " ng-click="makeItBase()">
+            Crear entrada
+          </button>
+        </div>
+      </div>
 
-      <button class="button button-full button-positive" ng-click="makeItBase()">
-        crea una base
-      </button>
+      <div class="row">
+        <div class="col col-50">
+          <button class="button button-full button-energized " ng-click="makeItBase()">
+            Crear Salida
+          </button>
+        </div>
+        <div class="col col-50">
+          <button class="button button-full button-royal " ng-click="makeItBase()">
+            Crear Actividad
+          </button>
+        </div>
+      </div>
+
 
       <div class="item" ng-show="base.id != 0">
         <bases-dir id-base='base.id' cantidad-total='base.valor_total' ></bases-dir>
+      </div>
+
+      <div class="item">
+        <movimientos-dir id-base="base.id"></movimientos-dir>
       </div>
     </div>
   </ion-content>

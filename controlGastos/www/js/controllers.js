@@ -1,13 +1,8 @@
-
 modulo.controller('DashCtrl', function($scope, $cordovaSQLite, movimientosService) {
   $scope.base = {
     id: 0,
     valor_total: 0
   };
-
-  $scope.cargarDatos = function(){
-    movimientosService.prepararBaseDatos().then(function(a){alert(a)}, function(b){ alert(b);});
-  }
 
   $scope.makeItBase = function(){
     movimientosService.registrarBase(
