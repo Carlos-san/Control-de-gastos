@@ -1,6 +1,6 @@
 modulo.controller('DashCtrl', dashController);
 
-function dashController($scope, $cordovaSQLite, $ionicModal, movimientosService) {
+function dashController($scope, $cordovaSQLite, $ionicModal, movimientosService, generalesService) {
   $scope.base = {
     id: 0,
     valor_total: 0
@@ -8,12 +8,13 @@ function dashController($scope, $cordovaSQLite, $ionicModal, movimientosService)
 
   setTimeout(function(){
     movimientosService.obtenerBaseActual().then(function(data){
-      alert(data.id);
       $scope.base = data;
+      $scope.$broadcast('actualizarMovimientosBase');
     }, function(err){
+      console.log(err);
       alert("paila");
     });
-  }, 2000);
+  }, 500);
 
 
 
@@ -171,4 +172,4 @@ function dashController($scope, $cordovaSQLite, $ionicModal, movimientosService)
   inicializaActividad();
 }
 
-dashController.$inject = ['$scope', '$cordovaSQLite', '$ionicModal', 'movimientosService'];
+dashController.$inject = ['$scope', '$cordovaSQLite', '$ionicModal', 'movimientosService', 'generalesService'];

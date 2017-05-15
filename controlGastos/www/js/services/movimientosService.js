@@ -89,8 +89,7 @@ modulo.service("movimientosService", movimientosService);
 
 
     ejecutarQuery(query).then(function(data){
-
-
+      console.log(data);
       if(data != undefined && data.rows.length > 0){
         base = data.rows.item(0);
         respuesta.resolve(data.rows.item(0));
@@ -100,6 +99,7 @@ modulo.service("movimientosService", movimientosService);
           valor_total: 0
         });
     }, function(err){
+      console.log(err);
       respuesta.reject(false);
     });
 
