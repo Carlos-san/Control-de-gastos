@@ -7,31 +7,22 @@ function dashController($scope, $cordovaSQLite, $ionicModal, movimientosService,
   };
 
   setTimeout(function(){
+    cargaInicialBases();
+  }, 500);
+
+  function cargaInicialBases(){
     movimientosService.obtenerBaseActual().then(function(data){
       $scope.base = data;
       $scope.$broadcast('actualizarMovimientosBase');
     }, function(err){
       console.log(err);
-      alert("paila");
+      alert("No fue posible hacer de todo");
     });
-  }, 500);
-
-
-
-  $scope.makeItBase = function(){
-    alert("11");
-    movimientosService.registrarBase(
-      "UN nombre", "05/05/2017", "06/06/2017", 2222
-    ).then(function(a){
-      alert("Zapato");
-      movimientosService.obtenerBaseActual().then(function(data){
-        alert(data.id);
-        $scope.base = data;
-      }, function(err){
-        alert("paila");
-      });
-    }, function(b){ alert(b);});
   }
+
+  $scope.$on('creacionBase', function(){
+    cargaInicialBases();
+  });
 
   /* Inicializadores */
   function inicializaMontoBase(){
