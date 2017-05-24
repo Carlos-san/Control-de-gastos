@@ -8,7 +8,7 @@ function dashController($scope, $cordovaSQLite, $ionicModal, movimientosService,
 
   setTimeout(function(){
     cargaInicialBases();
-  }, 500);
+  }, 1000);
 
   function cargaInicialBases(){
     movimientosService.obtenerBaseActual().then(function(data){

@@ -48,10 +48,9 @@ modulo.service("movimientosService", movimientosService);
     obtenerBaseActual().then(function(data){
       if(data.id == 0){
           var query = "INSERT INTO base (fecha_inicial, fecha_final, nombre, valor_total) "
-          query +=    "VALUES ('" + finicial+ "', '" + ffinal + "', '" + nombre + "', " + valor + ")";
+          query +=    "VALUES ('" + moment(finicial, "DD/MM/YYYY").format("YYYYMMDD") + "', '" + moment(ffinal, "DD/MM/YYYY").format("YYYYMMDD") + "', '" + nombre + "', " + valor + ")";
 
           ejecutarQuery(query).then(function(data){
-
             respuesta.resolve(true);
           }, function(err){
             respuesta.reject('No fue posible registrar la base');
@@ -67,7 +66,7 @@ modulo.service("movimientosService", movimientosService);
   var registrarMovimiento = function(tipo, valor, detalle, idActividad){
     var respuesta = $q.defer();
     var query = "INSERT INTO movimientos (valor, tipo, fecha, descripcion, id_actividad, id_base) ";
-    query +=    " VALUES(" + valor + ",'" + tipo + "','" + formatearFecha() + "','" + detalle + "', " + idActividad + "," + base.id + ")";
+    query +=    " VALUES(" + valor + ",'" + tipo + "','" + moment().format("YYYYMMDD") + "','" + detalle + "', " + idActividad + "," + base.id + ")";
 
     ejecutarQuery(query).then(function(data){
       respuesta.resolve(true);
@@ -81,15 +80,15 @@ modulo.service("movimientosService", movimientosService);
   //Obtiene la base del periodo actual
   var obtenerBaseActual = function(){
     var respuesta = $q.defer();
-    var fechaActual = formatearFecha();
+    var fechaActual = moment().format("YYYYMMDD");
 
     var query = "SELECT id, valor_total FROM base b ";
-    // query +=    "WHERE '" + fechaActual + "' > b.fecha_inicial ";
-    // query +=    "AND '" + fechaActual + "' < b.fecha_final";
+    query +=    "WHERE '" + fechaActual + "' >= b.fecha_inicial ";
+    query +=    "AND '" + fechaActual + "' <= b.fecha_final";
 
 
     ejecutarQuery(query).then(function(data){
-      console.log(data);
+
       if(data != undefined && data.rows.length > 0){
         base = data.rows.item(0);
         respuesta.resolve(data.rows.item(0));
@@ -118,8 +117,6 @@ modulo.service("movimientosService", movimientosService);
 
       ejecutarQuery(querySalida).then(function(salida){
         var salida = calcularTotal(salida.rows);
-
-
         respuesta.resolve({
           entradas: entradas,
           salidas: salida
@@ -143,7 +140,7 @@ modulo.service("movimientosService", movimientosService);
         query +=    "LEFT JOIN actividad a ON a.ID = m.id_actividad "
         query +=    "WHERE m.id_base = " + idBase + " order by fecha DESC";
 
-        ejecutarQuery(query).then(function(data){
+        ejecutarQuery(query).then(function(data){          
           respuesta.resolve(data.rows);
         }, function(err){
           respuesta.reject(false);
