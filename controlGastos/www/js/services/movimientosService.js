@@ -117,6 +117,8 @@ modulo.service("movimientosService", movimientosService);
 
       ejecutarQuery(querySalida).then(function(salida){
         var salida = calcularTotal(salida.rows);
+
+
         respuesta.resolve({
           entradas: entradas,
           salidas: salida
@@ -140,8 +142,13 @@ modulo.service("movimientosService", movimientosService);
         query +=    "LEFT JOIN actividad a ON a.ID = m.id_actividad "
         query +=    "WHERE m.id_base = " + idBase + " order by fecha DESC";
 
-        ejecutarQuery(query).then(function(data){          
-          respuesta.resolve(data.rows);
+        ejecutarQuery(query).then(function(data){
+          var list = [];
+          var cantidad = data.rows.length;
+          for(var i = 0; i < cantidad; i++)
+            list.push(data.rows.item(i));
+
+          respuesta.resolve(list);
         }, function(err){
           respuesta.reject(false);
         });

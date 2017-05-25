@@ -1,6 +1,7 @@
 <ion-view view-title="Dashboard">
   <ion-content class="padding">
     <div class="col-md-12">
+      
       <div class="row">
         <div class="col col-50" ng-show="base.id == 0">
           <button class="button button-full button-positive" ng-click="bntAgregarBase()">
@@ -32,7 +33,7 @@
       </div>
 
       <div class="item" ng-show="base.id != 0">
-          <movimientos-dir base-id="base.id"></movimientos-dir>        
+          <movimientos-dir base-id="base.id"></movimientos-dir>
       </div>
     </div>
   </ion-content>
