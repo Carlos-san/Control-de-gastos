@@ -27,13 +27,12 @@
         </div>
       </div>
 
-
       <div class="item" ng-show="base.id != 0">
         <bases-dir id-base='base.id' cantidad-total='base.valor_total' ></bases-dir>
       </div>
 
-      <div class="item">
-        <movimientos-dir id-base="base.id"></movimientos-dir>
+      <div class="item" ng-show="base.id != 0">
+          <movimientos-dir base-id="base.id"></movimientos-dir>        
       </div>
     </div>
   </ion-content>

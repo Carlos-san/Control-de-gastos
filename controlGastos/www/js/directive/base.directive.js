@@ -14,7 +14,7 @@ function basesDir(){
 }
 
 function verBaseController($scope, movimientosService){
-  
+
   $scope.datosBase = {
     valorRestante: 0,
     grupoRiesgo: 0, //Grupo de riesgo: 0-> mayor al 66%, 1-> mayor al 33%, 2-> menor al 33
@@ -25,7 +25,6 @@ function verBaseController($scope, movimientosService){
 
   $scope.$watch('idBase', function(newie){
     if(newie != undefined && newie != 0){
-
       obtenerValoresBase(newie);
     }
   });
