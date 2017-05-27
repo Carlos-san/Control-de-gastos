@@ -143,12 +143,15 @@ modulo.service("movimientosService", movimientosService);
         query +=    "WHERE m.id_base = " + idBase + " order by fecha DESC";
 
         ejecutarQuery(query).then(function(data){
+
           var list = [];
           var cantidad = data.rows.length;
           for(var i = 0; i < cantidad; i++)
             list.push(data.rows.item(i));
 
           respuesta.resolve(list);
+          // console.log(data.rows );
+          // respuesta.resolve(data.rows);
         }, function(err){
           respuesta.reject(false);
         });
