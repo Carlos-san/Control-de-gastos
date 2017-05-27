@@ -1,6 +1,4 @@
-var serviciosModule = angular.module('starter.services', ['ngCordova']);
-
-serviciosModule.service("movimientosService", movimientosService);
+modulo.service("movimientosService", movimientosService);
 
   function movimientosService($q, $cordovaSQLite){
 
@@ -9,7 +7,6 @@ serviciosModule.service("movimientosService", movimientosService);
 
   var inicializar = function(){
     var respuesta = $q.defer();
-    iniciarConexion();
 
     prepararBaseDatos().then(function(data){
       respuesta.resolve(true);
@@ -22,25 +19,15 @@ serviciosModule.service("movimientosService", movimientosService);
 
   //Prepara la conexión
   var iniciarConexion = function(){
-    if(_bd == null){
-        if(semillaBd != undefined){
-          if(window.cordova){
-            _bd = $cordovaSQLite.openDB({ name: semillaBd.credenciales.nombre, location: 1});
-          }else //Depurar en navegador
-            _bd = window.openDatabase(semillaBd.credenciales.nombre , '1', 'default', semillaBd.credenciales.length);
-          return true;
-        }else
-          return false;
 
-   } return true;
- }
+  }
 
   //Crea las tablas en BD
   var prepararBaseDatos = function(){
     var respuesta = $q.defer();
 
     for(var i = 0; i < semillaBd.creacionTablas.length; i++){
-      ejecutarQuery(semillaBd.creacionTablas[i]).then(function(){ }, function(){
+      ejecutarQuery(semillaBd.creacionTablas[semillaBd.version][i]).then(function(){ }, function(){
         respuesta.reject("No fue posible preparar la base de datos");
         return respuesta.promise;
       });
@@ -51,7 +38,7 @@ serviciosModule.service("movimientosService", movimientosService);
 
   //Método general para consultar la bd
   var ejecutarQuery = function(query, parametros){
-    return  $cordovaSQLite.execute(_bd, query, parametros);
+    return  $cordovaSQLite.execute(db, query, []);
   }
 
   //Registro de base por periodo
@@ -59,18 +46,18 @@ serviciosModule.service("movimientosService", movimientosService);
     var respuesta = $q.defer();
 
     obtenerBaseActual().then(function(data){
-      if(Object.keys(data).length > 0){
+      if(data.id == 0){
           var query = "INSERT INTO base (fecha_inicial, fecha_final, nombre, valor_total) "
-          query +=    "VALUES ('" + finicial+ "', '" + ffinal + "', '" + nombre + "', " + valor + ")";
+          query +=    "VALUES ('" + moment(finicial, "DD/MM/YYYY").format("YYYYMMDD") + "', '" + moment(ffinal, "DD/MM/YYYY").format("YYYYMMDD") + "', '" + nombre + "', " + valor + ")";
 
           ejecutarQuery(query).then(function(data){
             respuesta.resolve(true);
           }, function(err){
             respuesta.reject('No fue posible registrar la base');
           });
-      }
+      }else respuesta.resolve(true);
     }, function(err){
-      respuesta.reject('Ya hay una base registrada para el periodo actual');
+      respuesta.reject('No se pudo');
     })
     return respuesta.promise;
   }
@@ -79,7 +66,7 @@ serviciosModule.service("movimientosService", movimientosService);
   var registrarMovimiento = function(tipo, valor, detalle, idActividad){
     var respuesta = $q.defer();
     var query = "INSERT INTO movimientos (valor, tipo, fecha, descripcion, id_actividad, id_base) ";
-    query +=    " VALUES(" + valor + ",'" + tipo + "','" + formatearFecha() + "','" + detalle + "', " + idActividad + "," + base.id + ")";
+    query +=    " VALUES(" + valor + ",'" + tipo + "','" + moment().format("YYYYMMDD") + "','" + detalle + "', " + idActividad + "," + base.id + ")";
 
     ejecutarQuery(query).then(function(data){
       respuesta.resolve(true);
@@ -93,23 +80,25 @@ serviciosModule.service("movimientosService", movimientosService);
   //Obtiene la base del periodo actual
   var obtenerBaseActual = function(){
     var respuesta = $q.defer();
-    var fechaActual = formatearFecha();
+    var fechaActual = moment().format("YYYYMMDD");
 
     var query = "SELECT id, valor_total FROM base b ";
-    query +=    "WHERE '" + fechaActual + "' > b.fecha_inicial ";
-    query +=    "AND '" + fechaActual + "' < b.fecha_final";
+    query +=    "WHERE '" + fechaActual + "' >= b.fecha_inicial ";
+    query +=    "AND '" + fechaActual + "' <= b.fecha_final";
 
 
     ejecutarQuery(query).then(function(data){
+
       if(data != undefined && data.rows.length > 0){
-        base = data.rows[0];
-        respuesta.resolve(data.rows[0]);
+        base = data.rows.item(0);
+        respuesta.resolve(data.rows.item(0));
       }else
         respuesta.resolve({
           id: 0,
           valor_total: 0
         });
     }, function(err){
+      console.log(err);
       respuesta.reject(false);
     });
 
@@ -128,6 +117,7 @@ serviciosModule.service("movimientosService", movimientosService);
 
       ejecutarQuery(querySalida).then(function(salida){
         var salida = calcularTotal(salida.rows);
+
 
         respuesta.resolve({
           entradas: entradas,
@@ -153,7 +143,12 @@ serviciosModule.service("movimientosService", movimientosService);
         query +=    "WHERE m.id_base = " + idBase + " order by fecha DESC";
 
         ejecutarQuery(query).then(function(data){
-          respuesta.resolve(data.rows);
+          var list = [];
+          var cantidad = data.rows.length;
+          for(var i = 0; i < cantidad; i++)
+            list.push(data.rows.item(i));
+
+          respuesta.resolve(list);
         }, function(err){
           respuesta.reject(false);
         });
@@ -209,7 +204,7 @@ function calcularTotal(arregloValores){
   var total = 0;
 
   for(var i = 0; i < length; i++){
-    total = total + arregloValores[i].valor;
+    total = total + arregloValores.item(i).valor;
   }
   return total;
 }

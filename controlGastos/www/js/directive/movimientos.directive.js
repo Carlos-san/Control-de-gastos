@@ -1,12 +1,13 @@
-controladoresDirective.directive("movimientosDir", movimientosDir);
+modulo.directive("movimientosDir", movimientosDir);
 
 function movimientosDir(){
   return {
     restrict: 'EA',
-    templateUrl: '../../templates/directive/movimientos.html',
+    templateUrl: 'templates/movimientos.html',
     scope: {
-        idBase: '<'
-    },
+        ngModel: '=',
+        baseId: '='
+      },
     controller: movimientosDirController
   }
 }
@@ -14,14 +15,14 @@ function movimientosDir(){
 function movimientosDirController($scope, movimientosService){
   $scope.movimientos = [];
 
-  $scope.$watch('idBase', function(newie){
+  $scope.$watch('baseId', function(newie){
     if(newie != undefined && newie != 0){
       obtenerValoresMovimientos(newie);
     }
   });
 
   $scope.$on('actualizarMovimientosBase', function(){
-    obtenerValoresMovimientos($scope.idBase);
+    obtenerValoresMovimientos($scope.baseId);
   });
 
   function obtenerValoresMovimientos(idBase){
@@ -29,9 +30,10 @@ function movimientosDirController($scope, movimientosService){
       $scope.movimientos = [];
       for(var i = 0; i < data.length; i++){
           $scope.movimientos.push(data[i]);
+          $scope.movimientos[i].fecha = moment($scope.movimientos[i].fecha, "YYYYMMDD").format("DD/MM/YYYY");
       }
     }, function(err){
-      //TODO: reportar errores
+      //TODO: reportar errores      
     });
   }
 }
