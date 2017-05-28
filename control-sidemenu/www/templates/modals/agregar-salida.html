@@ -1,0 +1,29 @@
+<ion-modal-view class="ion-nifty-modal">
+  <ion-header-bar class="bar bar-header control-app">
+    <h1 class="title" style="text-align:center;">Registrar salida</h1>
+    <button class="button button-primary control-app" ng-click="cerrarSalida()">X</button>
+  </ion-header-bar>
+  <div class="ion-modal-content-custom">
+    <ion-content class="padding">
+      <div class="item item-text-wrap">
+        <input type="tel" name="montoSalida" ng-model="montoSalida.valor" ui-money-mask="0" min="0" class="texto-calculadora">
+      </div>
+      <div class="item item-input item-select" ion-datetime-picker date ng-model="montoSalida.fecha">
+        <span class="input-label left">Fecha</span>
+        <strong>{{montoBase.periodoInicial| date: "dd/MM/yyyy"}}</strong>
+      </div>
+
+      <label class="item item-input item-select">
+        <div class="input-label">
+          Actividad
+        </div>
+        <select ng-model="montoSalida.tipoActividad" ng-options="act.nombre for act in montoSalida.actividades">
+        </select>
+      </label>
+      <div class="item item-text-wrap">
+        <textarea ng-model="montoSalida.detalle" style="width:100%;" placeholder="Escribe un detalle" maxlength="300"></textarea>
+      </div>
+      <button class="button button-block control-app" ng-click="agregarSalida()">Registrar</button>
+    </ion-content>
+  </div>
+</ion-modal-view>
