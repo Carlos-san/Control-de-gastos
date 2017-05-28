@@ -1,0 +1,24 @@
+<ion-modal-view class="ion-nifty-modal">
+  <ion-header-bar class="bar bar-header control-app">
+    <h1 class="title" style="text-align:center;">Registrar actividad</h1>
+    <button class="button button-primary control-app" ng-click="cerrarActividad()">X</button>
+  </ion-header-bar>
+  <div class="ion-modal-content-custom">
+    <ion-content class="padding">
+      <div class="item item-text-wrap">
+        <input type="text" name="nuevaActividad" ng-model="nuevaActividad.nombre" placeholder="Ingresa el nombre de actividad" style="width:100%!important" maxlength="100">
+      </div>
+      <label class="item item-input item-select">
+        <div class="input-label">
+          Tipo
+        </div>
+        <select ng-model="nuevaActividad.tipoActividad" ng-options="act.nombre for act in nuevaActividad.tipos">
+        </select>
+      </label>
+      <div class="item item-text-wrap">
+        <textarea ng-model="nuevaActividad.descripcion" style="width:100%;" placeholder="Escribe una descripcion" maxlength="300"></textarea>
+      </div>
+      <button class="button button-block control-app" ng-click="agregarActividad()">Registrar</button>
+    </ion-content>
+  </div>
+</ion-modal-view>

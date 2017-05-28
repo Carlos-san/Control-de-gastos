@@ -1,0 +1,40 @@
+<ion-view view-title="Dashboard">
+  <ion-content class="padding">
+    <div class="col-md-12">
+      
+      <div class="row">
+        <div class="col col-50" ng-show="base.id == 0">
+          <button class="button button-full button-positive" ng-click="bntAgregarBase()">
+            Nueva base
+          </button>
+        </div>
+        <div class="col col-50">
+          <button class="button button-full button-balanced " ng-click="bntAgregarEntrada()">
+            Crear entrada
+          </button>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col col-50">
+          <button class="button button-full button-energized " ng-click="bntAgregarSalida()">
+            Crear Salida
+          </button>
+        </div>
+        <div class="col col-50">
+          <button class="button button-full button-royal " ng-click="bntAgregarActividad()">
+            Crear Actividad
+          </button>
+        </div>
+      </div>
+
+      <div class="item" ng-show="base.id != 0">
+        <bases-dir id-base='base.id' cantidad-total='base.valor_total' ></bases-dir>
+      </div>
+
+      <div class="item" ng-show="base.id != 0">
+          <movimientos-dir base-id="base.id"></movimientos-dir>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>
