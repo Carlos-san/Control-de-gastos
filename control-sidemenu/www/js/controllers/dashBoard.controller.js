@@ -71,16 +71,21 @@ function dashController($scope, $cordovaSQLite, $ionicModal, movimientosService,
     });
   }
   $scope.agregarBase = function(){
-    movimientosService.registrarBase("Sin descripción",
-    moment($scope.montoBase.periodoInicial).format("DD/MM/YYYY"),
-    moment($scope.montoBase.periodoFinal).format("DD/MM/YYYY"),
-    $scope.montoBase.valor).then(function(data){
-      generalesService.generarMensajeCorto("Base por periodo realizada correctamente");
-      $scope.$broadcast('creacionBase');
-      $scope.modalBase.hide();
-    }, function(err){
-      alert("No fue posible registrar la base");
-    });
+    var fechaInicial = moment($scope.montoBase.periodoInicial).format("DD/MM/YYYY");
+    var fechaFinal = moment($scope.montoBase.periodoFinal).format("DD/MM/YYYY");
+
+    if(fechaInicial < fechaFinal){
+        movimientosService.registrarBase("Sin descripción", fechaInicial, fechaFinal, $scope.montoBase.valor)
+        .then(function(data){
+          generalesService.generarMensajeCorto("Base por periodo realizada correctamente");
+          $scope.$broadcast('creacionBase');
+          $scope.modalBase.hide();
+        }, function(err){
+          alert("No fue posible registrar la base");
+        });
+    }else{
+      alert("la fecha final debe ser mayor a la inicial");
+    }
   }
   $scope.cerrarBase = function() {$scope.modalBase.hide();};
   /*----------------------------------------*/

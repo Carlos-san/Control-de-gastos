@@ -3,7 +3,7 @@ var modulo = angular.module('starter', ['ionic', 'ngCordova'])
 
   .run(function ($ionicPlatform) {
     $ionicPlatform.ready(function () {
-      
+
       if (window.cordova && window.cordova.plugins.Keyboard) {
         cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
         cordova.plugins.Keyboard.disableScroll(true);
@@ -17,7 +17,7 @@ var modulo = angular.module('starter', ['ionic', 'ngCordova'])
       db = window.openDatabase('Uno', '1', 'default', semillaBd.credenciales.length);
       // db = $cordovaSQLite.openDB({ name: "mia.db", location: 1});
       db.transaction(function (tx) {
-        
+
         var creacionTablas = {
           count:semillaBd.creacionTablas[semillaBd.version].length,
           arraySql: semillaBd.creacionTablas[semillaBd.version]
