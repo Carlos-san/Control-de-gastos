@@ -25,6 +25,10 @@ function movimientosDirController($scope, movimientosService){
     obtenerValoresMovimientos($scope.baseId);
   });
 
+  $scope.removeItem = function(item){    
+    alert("Aun no puedo remover esto con id " + item.id);
+  }
+
   function obtenerValoresMovimientos(idBase){
     movimientosService.obtenerMovimientosPorBase(idBase).then(function(data){
       $scope.movimientos = [];
@@ -33,7 +37,7 @@ function movimientosDirController($scope, movimientosService){
           $scope.movimientos[i].fecha = moment($scope.movimientos[i].fecha, "YYYYMMDD").format("DD/MM/YYYY");
       }
     }, function(err){
-      //TODO: reportar errores      
+      //TODO: reportar errores
     });
   }
 }

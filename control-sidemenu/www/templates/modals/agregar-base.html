@@ -5,24 +5,18 @@
   </ion-header-bar>
   <div class="ion-modal-content-custom">
     <ion-content class="padding">
-      <div class="item item-text-wrap">
-        <input type="tel" name="field" ng-model="montoBase.valor" ui-money-mask="0" min="0" class="texto-calculadora">
-      </div>
-      <div class="item item-input item-select" ng-model="montoBase.periodoInicial">
-        <input type="date" ng-model = "montoBase.periodoInicial">
-      </div>
-      <div class="item item-input item-select" ng-model="montoBase.periodoInicial">
-        <input type="date" ng-model = "montoBase.periodoFinal">
-      </div>
-      <!-- <div class="item item-input item-select" ion-datetime-picker date ng-model="montoBase.periodoInicial">
-        <span class="input-label center">Periodo inicial</span>
-        <strong>{{montoBase.periodoInicial| date: "dd/MM/yyyy"}}</strong>
-      </div>
-      <div class="item item-input item-select" ion-datetime-picker date ng-model="montoBase.periodoFinal">
-        <span class="input-label center">Periodo final</span>
-        <strong>{{montoBase.periodoFinal| date: "dd/MM/yyyy"}}</strong>
-      </div> -->
-      <button class="button button-block control-app" ng-click="agregarBase()">Registrar</button>
+      <form novalidate name="creacionBase">
+          <div class="item item-text-wrap">
+            <input type="tel" name="field" ng-model="montoBase.valor" ui-money-mask="0" min="0" class="texto-calculadora" ng-minlength="2">
+          </div>
+          <div class="item item-input item-select" ng-model="montoBase.periodoInicial">
+            <input type="date" ng-model = "montoBase.periodoInicial" ng-required="true">
+          </div>
+          <div class="item item-input item-select" ng-model="montoBase.periodoInicial">
+            <input type="date" ng-model = "montoBase.periodoFinal" ng-required="true">
+          </div>
+          <button class="button button-block control-app" ng-click="agregarBase()" ng-disabled="creacionBase.$invalid">Registrar</button>
+      </form>
     </ion-content>
   </div>
 </ion-modal-view>
