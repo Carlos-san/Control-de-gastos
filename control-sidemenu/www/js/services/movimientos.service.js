@@ -158,7 +158,33 @@ modulo.service("movimientosService", movimientosService);
   }
 
   var obtenerMovimientosPorActividad = function(){
+      //TODO: implementar
+  }
 
+  var obtenerHistoricoBases = function(){
+    var respuesta = $q.defer();
+    var fechaActual = moment().format("YYYYMMDD");
+
+    var query = "SELECT id, valor_total FROM base b ";
+    query +=    "WHERE NOT ('" + fechaActual + "' >= b.fecha_inicial ";
+    query +=    "AND '" + fechaActual + "' <= b.fecha_final)";
+
+    ejecutarQuery(query).then(function(data){
+      if(data != undefined && data.rows.length > 0){
+        var list = [];
+        var cantidad = data.rows.length;
+        for(var i = 0; i < cantidad; i++)
+          list.push(data.rows.item(i));
+
+        respuesta.resolve(list);
+      }else
+        respuesta.resolve([]);
+    }, function(err){
+      console.log(err);
+      respuesta.reject(false);
+    });
+
+    return respuesta.promise;
   }
 
   return {
@@ -174,7 +200,8 @@ modulo.service("movimientosService", movimientosService);
     //consultas
     obtenerBaseActual: obtenerBaseActual,
     obtenerMovimientosPorBase: obtenerMovimientosPorBase,
-    obtenerValoresRestantesBase: obtenerValoresRestantesBase
+    obtenerValoresRestantesBase: obtenerValoresRestantesBase,
+    obtenerHistoricoBases: obtenerHistoricoBases
   }
 }
 

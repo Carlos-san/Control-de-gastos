@@ -1,8 +1,14 @@
-<div class="card base-class" on-hold="mostrarDetalleBase()">
+<div class="card base-class" on-hold="mostrarDetalleBase()" ng-click="mostrarResumen()">
   <div class="item item-text-wrap item-avatar item-icon-right"  ng-class="{'estado-base-ok': datosBase.grupoRiesgo == 0, 'estado-base-regular': datosBase.grupoRiesgo == 1, 'estado-base-mal': datosBase.grupoRiesgo == 2}">
     <i class="icon ion-pie-graph"></i>
-    Actual.<br/>
-    <strong  style="pull-right">${{datosBase.valorRestante}}</strong>
+    <div ng-show="!resumenBase">
+      Actual.<br/>
+      <strong  style="pull-right">${{datosBase.valorRestante}}</strong>
+    </div>
+
+    <div ng-show="resumenBase">
+      
+    </div>
   </div>
   <div class="item item-divider">
     Saldo original: ${{cantidadTotal}}

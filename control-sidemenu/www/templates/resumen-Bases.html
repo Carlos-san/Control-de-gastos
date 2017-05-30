@@ -1,0 +1,19 @@
+<ion-view view-title="Historico de movimientos">
+  <ion-content class="padding">
+    <div class="col-md-12" ng-show="bases.length > 0">
+      <bases-dir ng-repeat="base in bases"
+          id-base='base.id'
+          cantidad-total='base.valor_total'
+          resumen-base='true'>
+      </bases-dir>
+    </div>
+
+    <div class="col-md-12" ng-show="bases.length == 0">
+      <div class="card">
+        <div class="item item-text-wrap positive">
+          No hay bases para mostrar
+        </div>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>
