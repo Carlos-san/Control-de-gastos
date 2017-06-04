@@ -66,7 +66,21 @@ modulo.service("movimientosService", movimientosService);
   var registrarMovimiento = function(tipo, valor, detalle, idActividad){
     var respuesta = $q.defer();
     var query = "INSERT INTO movimientos (valor, tipo, fecha, descripcion, id_actividad, id_base) ";
-    query +=    " VALUES(" + valor + ",'" + tipo + "','" + moment().format("YYYYMMDD") + "','" + detalle + "', " + idActividad + "," + base.id + ")";
+    query +=    " VALUES(" + valor + ",'" + tipo + "','" + moment().format("YYYYMMDDhmmss") + "','" + detalle + "', " + idActividad + "," + base.id + ")";
+
+    ejecutarQuery(query).then(function(data){
+      respuesta.resolve(true);
+    }, function(err){
+      respuesta.reject(false);
+    });
+
+    return respuesta.promise;
+  }
+
+  var eliminarMovimiento = function(idMovimiento){
+    var respuesta = $q.defer();
+
+    var query = "DELETE FROM movimientos WHERE id = " + idMovimiento ;
 
     ejecutarQuery(query).then(function(data){
       respuesta.resolve(true);
@@ -196,6 +210,7 @@ modulo.service("movimientosService", movimientosService);
     //Comandos
     registrarBase: registrarBase,
     registrarMovimiento: registrarMovimiento,
+    eliminarMovimiento: eliminarMovimiento,
 
     //consultas
     obtenerBaseActual: obtenerBaseActual,
@@ -206,21 +221,6 @@ modulo.service("movimientosService", movimientosService);
 }
 
 movimientosService.$inject = ['$q', '$cordovaSQLite'];
-
-function formatearFecha(dato){
-  var fecha;
-  if(dato != undefined )
-    var fecha = new Date(dato);
-  else fecha = new Date();
-
-  if(fecha != undefined ){
-    var month = String(fecha.getMonth() + 1);
-    var day = String(fecha.getDate());
-
-    return String(fecha.getFullYear()) + "/" + agregarCeros(month) + "/" + agregarCeros(day) + " " + agregarCeros(String(fecha.getHours())) + ":" + agregarCeros(String(fecha.getMinutes())) + ":" + agregarCeros(String(fecha.getSeconds()));
-  }
-  return null;
-}
 
 function agregarCeros(dato){
   return dato.length < 2 ? '0' + dato : dato;

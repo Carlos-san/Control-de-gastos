@@ -12,7 +12,7 @@ function movimientosDir(){
   }
 }
 
-function movimientosDirController($scope, movimientosService){
+function movimientosDirController($scope, movimientosService, generalesService){
   $scope.movimientos = [];
 
   $scope.$watch('baseId', function(newie){
@@ -26,6 +26,7 @@ function movimientosDirController($scope, movimientosService){
   });
 
   function obtenerValoresMovimientos(idBase){
+    $scope.movimientos = [];
     movimientosService.obtenerMovimientosPorBase(idBase).then(function(data){
       $scope.movimientos = [];
       for(var i = 0; i < data.length; i++){
@@ -33,9 +34,19 @@ function movimientosDirController($scope, movimientosService){
           $scope.movimientos[i].fecha = moment($scope.movimientos[i].fecha, "YYYYMMDD").format("DD/MM/YYYY");
       }
     }, function(err){
-      //TODO: reportar errores      
+      //TODO: reportar errores
+    });
+  }
+
+  $scope.removeItem = function (movimiento){
+    movimientosService.eliminarMovimiento(movimiento.id).then(function(data){
+      generalesService.generarMensajeCorto("Movimiento eliminado correctamente");
+      obtenerValoresMovimientos($scope.baseId);
+      $scope.$emit('actualizarBaseActual');
+    }, function (err){
+      generalesService.generarMensajeCorto("Ups, no pudimos eliminar el movimiento");
     });
   }
 }
 
-movimientosDirController.$inject = ['$scope', 'movimientosService'];
+movimientosDirController.$inject = ['$scope', 'movimientosService', 'generalesService'];
