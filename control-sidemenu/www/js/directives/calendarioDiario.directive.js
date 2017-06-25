@@ -16,10 +16,34 @@ function calendarioDiarioDirController($scope, $ionicPosition, $ionicScrollDeleg
   var toDay = date.getDate();
   var iCount = 1;
   var lastDayOfMonth = new Date(date.getFullYear(), date.getMonth()+1, 0).getDate();
+  var styleActualDay= {
+    "background-color": "#EB9C4D",
+    "color": "white",
+    "border-radius" : "none"
+  }
+  var styleBeforeDay= {
+    "background-color": "#F2D680",
+    "border-radius" : "none",
+    "color": "white"
+  }
+  var styleAfterDay= {
+    "background-color": "#F3FFCF",
+    "color": "white"
+  }
+  var styleDay = {}
   $scope.days = [];
 
   for (iCount; iCount<=lastDayOfMonth; iCount++){
-    $scope.days.push({day: iCount, state: (toDay==iCount) });
+
+    if(iCount==toDay) styleDay = styleActualDay;
+    else if(iCount<toDay) styleDay = styleBeforeDay;
+    else styleDay = styleAfterDay;
+
+    $scope.days.push(
+      { day: iCount,
+        style: styleDay
+      }
+    );
   }
 
   $scope.scrollEvent = function(){
