@@ -83,5 +83,14 @@ font-family: 'Calculator';
 .profile-image img {
   border-radius: 50%;
   margin: 10px;
-  border: 4px solid rgba(255, 255, 255, 0.4);
+  border: 4px solid rgba(255, 255, 255, 0.4); }
+
+  /*Button material design*/
+div.floating-menu {
+  position:fixed;
+  background:#fff4c8;
+  border:1px solid #ffcc00;
+  width:150px;
+  z-index:100;
+  top:44px;
 }

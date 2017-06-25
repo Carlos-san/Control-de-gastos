@@ -1,4 +1,8 @@
 <ion-scroll direction="x" style="overflow: hidden;" delegate-handle="horizontal" zooming="false" id="scroll-x">
-    <a class="button" ng-repeat="day in days" id="{{day.day}}" scroll-today="scrollToday()" >{{day.day}}</a>
+    <a class="button" 
+    ng-repeat="day in days" 
+    id="{{day.day}}" 
+    scroll-today="scrollToday()"
+    ng-style="day.style">{{day.day}}</a>
 </ion-scroll>
 <div ng-init="scrollEvent()"></div>
