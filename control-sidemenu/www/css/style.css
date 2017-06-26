@@ -65,10 +65,10 @@ font-family: 'Calculator';
 }
 
 .side-menu-gradient {
-  background: -webkit-linear-gradient(left top, #F85032, #ff4b1f);
-  background: -o-linear-gradient(bottom right, #F85032, #ff4b1f);
-  background: -moz-linear-gradient(bottom right, #F85032, #ff4b1f);
-  background: -linear-gradient(bottom right, #F85032, #ff4b1f); }
+  background: -webkit-linear-gradient(left top, #0c60ee, #0c60ee);
+  background: -o-linear-gradient(bottom right, #0c60ee, #0c60ee);
+  background: -moz-linear-gradient(bottom right, #0c60ee, #0c60ee);
+  background: -linear-gradient(bottom right, #0c60ee, #0c60ee); }
 
 .side-menu-item {
   background: none;

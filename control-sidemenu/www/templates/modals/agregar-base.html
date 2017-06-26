@@ -1,11 +1,6 @@
-<ion-modal-view class="ion-nifty-modal">
-  <ion-header-bar class="bar bar-header control-app">
-    <h1 class="title" style="text-align:center;">Agrega ingreso principal</h1>
-    <button class="button button-primary control-app" ng-click="cerrarBase()">X</button>
-  </ion-header-bar>
-  <div class="ion-modal-content-custom">
-    <ion-content class="padding">
-      <form novalidate name="creacionBase">
+<ion-view view-title="Registrar base">
+  <ion-content class="padding">
+    <form novalidate name="creacionBase">
           <div class="item item-text-wrap">
             <input type="tel" name="field" ng-model="montoBase.valor" ui-money-mask="0" min="0" class="texto-calculadora" ng-minlength="2">
           </div>
@@ -17,6 +12,5 @@
           </div>
           <button class="button button-block control-app" ng-click="agregarBase()" ng-disabled="creacionBase.$invalid">Registrar</button>
       </form>
-    </ion-content>
-  </div>
-</ion-modal-view>
+  </ion-content>
+</ion-view>
