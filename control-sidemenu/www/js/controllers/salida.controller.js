@@ -1,6 +1,6 @@
 modulo.controller('SalidaCtrl', salidaController);
 
-function salidaController($scope, movimientosService, generalesService) {
+function salidaController($scope,$state, movimientosService, generalesService) {
   function inicializaSalida(){
     $scope.montoSalida = {
       valor: 0,
@@ -16,7 +16,6 @@ function salidaController($scope, movimientosService, generalesService) {
     if($scope.montoSalida.valor > 0 || $scope.montoSalida.detalle.length > 0){
       movimientosService.registrarMovimiento("Salida", $scope.montoSalida.valor, $scope.montoSalida.detalle, null).then(function(data){
         generalesService.generarMensajeCorto("Movimiento realizado con exito");
-        $scope.modalSalida.hide();
         $scope.$broadcast('actualizarBaseActual');
         $scope.$broadcast('actualizarMovimientosBase');
         $state.go('app.dash');
@@ -29,4 +28,4 @@ function salidaController($scope, movimientosService, generalesService) {
 
   inicializaSalida();
 }
-salidaController.$inject = ['$scope', 'movimientosService', 'generalesService'];
+salidaController.$inject = ['$scope','$state', 'movimientosService', 'generalesService'];
