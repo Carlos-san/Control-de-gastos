@@ -19,6 +19,7 @@ function salidaController($scope, movimientosService, generalesService) {
         $scope.modalSalida.hide();
         $scope.$broadcast('actualizarBaseActual');
         $scope.$broadcast('actualizarMovimientosBase');
+        $state.go('app.dash');
       }, function(err){
         generalesService.generarMensajeCorto("Se produjo un error al realizar el movimiento");
       });

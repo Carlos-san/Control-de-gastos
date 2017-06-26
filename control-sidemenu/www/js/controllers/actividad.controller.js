@@ -13,6 +13,7 @@ function actividadController($scope) {
 
   $scope.agregarActividad = function () {
     console.log($scope.nuevaActividad);
+    $state.go('app.dash');
   }
 
 
