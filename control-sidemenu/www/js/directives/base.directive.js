@@ -44,9 +44,7 @@ function verBaseController($scope, movimientosService){
   }
 
   $scope.mostrarResumen = function(){
-    if($scope.resumenBase)
-      alert("JaJAAA, resumen");
-    else alert("Pos no");
+    //Validar resumenBase para mostrar resumen o no
   }
 
   function obtenerValoresBase(valor){
