@@ -7,17 +7,25 @@ function salidaController($scope,$state, movimientosService, generalesService) {
       valorMax:0,
       detalle:'',
       tipoActividad: '',
-      actividades: [{id: 1, nombre: 'Boyacá'},{id: 2, nombre: 'Hoteles'}],
+      actividades: [],
       fecha: new Date()
     }
+
+    movimientosService.obtenerListadoActividadesPorBase().then(function(data){
+      $scope.montoSalida.actividades = data;
+    }, function(err){
+      generalesService.generarMensajeCorto("No pude traer las actividades D:");
+    });
   }
 
   $scope.agregarSalida = function () {
     if($scope.montoSalida.valor > 0 || $scope.montoSalida.detalle.length > 0){
-      movimientosService.registrarMovimiento("Salida", $scope.montoSalida.valor, $scope.montoSalida.detalle, null).then(function(data){
+      movimientosService.registrarMovimiento("Salida",
+            $scope.montoSalida.valor,
+            $scope.montoSalida.detalle,
+            $scope.montoSalida.tipoActividad != 0 ? $scope.montoSalida.tipoActividad : null
+      ).then(function(data){
         generalesService.generarMensajeCorto("Movimiento realizado con exito");
-        $scope.$broadcast('actualizarBaseActual');
-        $scope.$broadcast('actualizarMovimientosBase');
         $state.go('app.dash');
       }, function(err){
         generalesService.generarMensajeCorto("Se produjo un error al realizar el movimiento");

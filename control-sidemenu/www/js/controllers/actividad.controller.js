@@ -1,6 +1,6 @@
 modulo.controller('ActividadCtrl', actividadController);
 
-function actividadController($scope) {
+function actividadController($scope, $state, movimientosService, generalesService) {
   function inicializaActividad(){
     $scope.nuevaActividad = {
       nombre: '',
@@ -12,11 +12,15 @@ function actividadController($scope) {
   }
 
   $scope.agregarActividad = function () {
-    console.log($scope.nuevaActividad);
-    $state.go('app.dash');
-  }
+    movimientosService.registrarActividad(1, $scope.nuevaActividad).then(function(data){
+      generalesService.generarMensajeCorto("Actividad registrada con exito");
+      $state.go('app.dash');
+    }, function (err){
+      generalesService.generarMensajeCorto("No fue posible registrar la actividad");
+    });
 
+  }
 
   inicializaActividad();
 }
-actividadController.$inject = ['$scope'];
+actividadController.$inject = ['$scope', '$state', 'movimientosService', 'generalesService'];

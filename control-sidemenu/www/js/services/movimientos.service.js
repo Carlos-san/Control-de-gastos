@@ -91,6 +91,21 @@ modulo.service("movimientosService", movimientosService);
     return respuesta.promise;
   }
 
+  var registrarActividad = function(idBaseActual, datosActividad){
+    var respuesta = $q.defer();
+    var query = 'INSERT INTO ACTIVIDAD (id_base, nombre, descripcion, fecha)'
+    query  += ' VALUES ('+ idBaseActual + ', "' + datosActividad.nombre + '","' + datosActividad.descripcion +'","' + moment(datosActividad.fecha, "DD/MM/YYYY").format("YYYYMMDD") + '")';
+
+    ejecutarQuery(query).then(function(data){
+      respuesta.resolve(true);
+    }, function(err){
+      console.log(err);
+      respuesta.reject(false);
+    });
+
+    return respuesta.promise;
+  }
+
   //Obtiene la base del periodo actual
   var obtenerBaseActual = function(){
     var respuesta = $q.defer();
@@ -102,7 +117,6 @@ modulo.service("movimientosService", movimientosService);
 
 
     ejecutarQuery(query).then(function(data){
-
       if(data != undefined && data.rows.length > 0){
         base = data.rows.item(0);
         respuesta.resolve(data.rows.item(0));
@@ -150,11 +164,11 @@ modulo.service("movimientosService", movimientosService);
 
   var obtenerMovimientosPorBase = function(idBase){
     var respuesta = $q.defer();
-
+    
     if(base != null){
         var query = "SELECT m.id, m.valor, m.tipo, m.fecha, m.descripcion, a.nombre FROM movimientos m ";
         query +=    "LEFT JOIN actividad a ON a.ID = m.id_actividad "
-        query +=    "WHERE m.id_base = " + idBase + " order by fecha DESC";
+        query +=    "WHERE m.id_base = " + idBase + " order by m.fecha DESC";
 
         ejecutarQuery(query).then(function(data){
           var list = [];
@@ -201,6 +215,23 @@ modulo.service("movimientosService", movimientosService);
     return respuesta.promise;
   }
 
+  var obtenerListadoActividadesPorBase = function(){
+    var respuesta = $q.defer();
+    var query = "SELECT id, nombre FROM ACTIVIDAD WHERE ID_BASE = " + base.id;
+
+    ejecutarQuery(query).then(function(data){
+      var list = [];
+      var cantidad = data.rows.length;
+      for(var i = 0; i < cantidad; i++)
+        list.push(data.rows.item(i));
+      respuesta.resolve(list);
+    }, function(err){
+      respuesta.reject(false);
+    });
+
+    return respuesta.promise;
+  }
+
   return {
     //Inicializadores
     iniciarConexion: iniciarConexion,
@@ -208,15 +239,20 @@ modulo.service("movimientosService", movimientosService);
     inicializar: inicializar,
 
     //Comandos
+    ////Bases
     registrarBase: registrarBase,
+    ////Movimientos
     registrarMovimiento: registrarMovimiento,
     eliminarMovimiento: eliminarMovimiento,
+    ////Actividades
+    registrarActividad: registrarActividad,
 
     //consultas
     obtenerBaseActual: obtenerBaseActual,
     obtenerMovimientosPorBase: obtenerMovimientosPorBase,
     obtenerValoresRestantesBase: obtenerValoresRestantesBase,
-    obtenerHistoricoBases: obtenerHistoricoBases
+    obtenerHistoricoBases: obtenerHistoricoBases,
+    obtenerListadoActividadesPorBase: obtenerListadoActividadesPorBase
   }
 }
 

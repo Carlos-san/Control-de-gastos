@@ -21,7 +21,7 @@ function movimientosDirController($scope, movimientosService, generalesService){
     }
   });
 
-  $scope.$on('actualizarMovimientosBase', function(){    
+  $scope.$on('actualizarMovimientosBase', function(){
     obtenerValoresMovimientos($scope.baseId);
   });
 

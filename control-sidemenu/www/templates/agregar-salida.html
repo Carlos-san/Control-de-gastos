@@ -12,7 +12,9 @@
         <div class="input-label">
           Actividad
         </div>
-        <select ng-model="montoSalida.tipoActividad" ng-options="act.nombre for act in montoSalida.actividades">
+        <select ng-model="montoSalida.tipoActividad">
+          <option value="0" selected>Ninguna</option>
+          <<option ng-repeat = "data in montoSalida.actividades" value="{{data.id}}">{{data.nombre}}</option>
         </select>
       </label>
       <div class="item item-text-wrap">
