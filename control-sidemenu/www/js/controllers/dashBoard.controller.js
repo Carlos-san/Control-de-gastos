@@ -6,9 +6,12 @@ function dashController($scope, $cordovaSQLite, movimientosService) {
     valor_total: 0
   };
 
-  setTimeout(function(){
+  //Llamado a la carga inicial de los datos del dashboard 
+  $scope.$on('$ionicView.afterEnter', function(ev) {
+    if(ev.targetScope !== $scope)
+        return;
     cargaInicialBases();
-  }, 1000);
+  });
 
   function cargaInicialBases(){
     movimientosService.obtenerBaseActual().then(function(data){

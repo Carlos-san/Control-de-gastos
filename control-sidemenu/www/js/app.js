@@ -17,7 +17,6 @@ var modulo = angular.module('starter', ['ionic', 'ngCordova'])
       db = window.openDatabase('mia', '1', 'default', semillaBd.credenciales.length);
       // db = $cordovaSQLite.openDB({ name: "mia.db", location: 1});
       db.transaction(function (tx) {
-
         var creacionTablas = {
           count:semillaBd.creacionTablas[semillaBd.version].length,
           arraySql: semillaBd.creacionTablas[semillaBd.version]

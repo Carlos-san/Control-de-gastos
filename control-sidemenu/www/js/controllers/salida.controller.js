@@ -11,12 +11,18 @@ function salidaController($scope,$state, movimientosService, generalesService) {
       fecha: new Date()
     }
 
+
+  }
+
+  $scope.$on('$ionicView.afterEnter', function(ev) {
+    if(ev.targetScope !== $scope)
+        return;
     movimientosService.obtenerListadoActividadesPorBase().then(function(data){
       $scope.montoSalida.actividades = data;
     }, function(err){
       generalesService.generarMensajeCorto("No pude traer las actividades D:");
     });
-  }
+  });
 
   $scope.agregarSalida = function () {
     if($scope.montoSalida.valor > 0 || $scope.montoSalida.detalle.length > 0){
