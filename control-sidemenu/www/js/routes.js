@@ -54,6 +54,15 @@ function config($stateProvider, $urlRouterProvider) {
                 }
             }
         })
+        .state('app.resumen', {
+            url: "/resumen",
+            views: {
+                'menu-content': {
+                    templateUrl: "templates/resumen-Bases.html",
+                    controller: 'resumenBasesController'
+                }
+            }
+        })
         ;
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/app/dash');

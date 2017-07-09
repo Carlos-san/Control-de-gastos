@@ -29,8 +29,6 @@ function AppController($scope, $ionicPopover, $ionicModal, generalesService, mov
       //$scope.popover.remove();
   };
 
-
-
   /*----------Registro de monto base----------*/
   $scope.bntAgregarBase = function () {
     inicializaMontoBase();

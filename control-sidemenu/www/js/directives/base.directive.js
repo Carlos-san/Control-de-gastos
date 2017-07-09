@@ -7,6 +7,7 @@ function basesDir(){
     scope: {
         ngModel: '=',
         idBase: '=',
+        resumenBase: '=',
         cantidadTotal: '='
     },
     controller: verBaseController
@@ -18,7 +19,7 @@ function verBaseController($scope, movimientosService){
   $scope.datosBase = {
     valorRestante: 0,
     grupoRiesgo: 0, //Grupo de riesgo: 0-> mayor al 66%, 1-> mayor al 33%, 2-> menor al 33
-    verDetalle: false,
+    verDetalle: $scope.resumenBase,
     cantidadEntradas: 0,
     cantidadSalidas: 0
   };
@@ -34,10 +35,16 @@ function verBaseController($scope, movimientosService){
   });
 
   $scope.mostrarDetalleBase = function(){
-    if(!$scope.datosBase.verDetalle)
-      $scope.datosBase.verDetalle = true;
-    else
-      $scope.datosBase.verDetalle = false;
+    if(!$scope.resumenBase){
+      if(!$scope.datosBase.verDetalle)
+        $scope.datosBase.verDetalle = true;
+      else
+        $scope.datosBase.verDetalle = false;
+    }
+  }
+
+  $scope.mostrarResumen = function(){
+    //Validar resumenBase para mostrar resumen o no
   }
 
   function obtenerValoresBase(valor){

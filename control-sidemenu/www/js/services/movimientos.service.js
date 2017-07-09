@@ -66,11 +66,40 @@ modulo.service("movimientosService", movimientosService);
   var registrarMovimiento = function(tipo, valor, detalle, idActividad){
     var respuesta = $q.defer();
     var query = "INSERT INTO movimientos (valor, tipo, fecha, descripcion, id_actividad, id_base) ";
-    query +=    " VALUES(" + valor + ",'" + tipo + "','" + moment().format("YYYYMMDD") + "','" + detalle + "', " + idActividad + "," + base.id + ")";
+    query +=    " VALUES(" + valor + ",'" + tipo + "','" + moment().format("YYYYMMDDhmmss") + "','" + detalle + "', " + idActividad + "," + base.id + ")";
 
     ejecutarQuery(query).then(function(data){
       respuesta.resolve(true);
     }, function(err){
+      respuesta.reject(false);
+    });
+
+    return respuesta.promise;
+  }
+
+  var eliminarMovimiento = function(idMovimiento){
+    var respuesta = $q.defer();
+
+    var query = "DELETE FROM movimientos WHERE id = " + idMovimiento ;
+
+    ejecutarQuery(query).then(function(data){
+      respuesta.resolve(true);
+    }, function(err){
+      respuesta.reject(false);
+    });
+
+    return respuesta.promise;
+  }
+
+  var registrarActividad = function(idBaseActual, datosActividad){
+    var respuesta = $q.defer();
+    var query = 'INSERT INTO ACTIVIDAD (id_base, nombre, descripcion, fecha)'
+    query  += ' VALUES ('+ idBaseActual + ', "' + datosActividad.nombre + '","' + datosActividad.descripcion +'","' + moment(datosActividad.fecha, "DD/MM/YYYY").format("YYYYMMDD") + '")';
+
+    ejecutarQuery(query).then(function(data){
+      respuesta.resolve(true);
+    }, function(err){
+      console.log(err);
       respuesta.reject(false);
     });
 
@@ -88,7 +117,6 @@ modulo.service("movimientosService", movimientosService);
 
 
     ejecutarQuery(query).then(function(data){
-
       if(data != undefined && data.rows.length > 0){
         base = data.rows.item(0);
         respuesta.resolve(data.rows.item(0));
@@ -136,11 +164,11 @@ modulo.service("movimientosService", movimientosService);
 
   var obtenerMovimientosPorBase = function(idBase){
     var respuesta = $q.defer();
-
+    
     if(base != null){
         var query = "SELECT m.id, m.valor, m.tipo, m.fecha, m.descripcion, a.nombre FROM movimientos m ";
         query +=    "LEFT JOIN actividad a ON a.ID = m.id_actividad "
-        query +=    "WHERE m.id_base = " + idBase + " order by fecha DESC";
+        query +=    "WHERE m.id_base = " + idBase + " order by m.fecha DESC";
 
         ejecutarQuery(query).then(function(data){
           var list = [];
@@ -158,7 +186,50 @@ modulo.service("movimientosService", movimientosService);
   }
 
   var obtenerMovimientosPorActividad = function(){
+      //TODO: implementar
+  }
 
+  var obtenerHistoricoBases = function(){
+    var respuesta = $q.defer();
+    var fechaActual = moment().format("YYYYMMDD");
+
+    var query = "SELECT id, valor_total FROM base b ";
+    query +=    "WHERE NOT ('" + fechaActual + "' >= b.fecha_inicial ";
+    query +=    "AND '" + fechaActual + "' <= b.fecha_final)";
+
+    ejecutarQuery(query).then(function(data){
+      if(data != undefined && data.rows.length > 0){
+        var list = [];
+        var cantidad = data.rows.length;
+        for(var i = 0; i < cantidad; i++)
+          list.push(data.rows.item(i));
+
+        respuesta.resolve(list);
+      }else
+        respuesta.resolve([]);
+    }, function(err){
+      console.log(err);
+      respuesta.reject(false);
+    });
+
+    return respuesta.promise;
+  }
+
+  var obtenerListadoActividadesPorBase = function(){
+    var respuesta = $q.defer();
+    var query = "SELECT id, nombre FROM ACTIVIDAD WHERE ID_BASE = " + base.id;
+
+    ejecutarQuery(query).then(function(data){
+      var list = [];
+      var cantidad = data.rows.length;
+      for(var i = 0; i < cantidad; i++)
+        list.push(data.rows.item(i));
+      respuesta.resolve(list);
+    }, function(err){
+      respuesta.reject(false);
+    });
+
+    return respuesta.promise;
   }
 
   return {
@@ -168,32 +239,24 @@ modulo.service("movimientosService", movimientosService);
     inicializar: inicializar,
 
     //Comandos
+    ////Bases
     registrarBase: registrarBase,
+    ////Movimientos
     registrarMovimiento: registrarMovimiento,
+    eliminarMovimiento: eliminarMovimiento,
+    ////Actividades
+    registrarActividad: registrarActividad,
 
     //consultas
     obtenerBaseActual: obtenerBaseActual,
     obtenerMovimientosPorBase: obtenerMovimientosPorBase,
-    obtenerValoresRestantesBase: obtenerValoresRestantesBase
+    obtenerValoresRestantesBase: obtenerValoresRestantesBase,
+    obtenerHistoricoBases: obtenerHistoricoBases,
+    obtenerListadoActividadesPorBase: obtenerListadoActividadesPorBase
   }
 }
 
 movimientosService.$inject = ['$q', '$cordovaSQLite'];
-
-function formatearFecha(dato){
-  var fecha;
-  if(dato != undefined )
-    var fecha = new Date(dato);
-  else fecha = new Date();
-
-  if(fecha != undefined ){
-    var month = String(fecha.getMonth() + 1);
-    var day = String(fecha.getDate());
-
-    return String(fecha.getFullYear()) + "/" + agregarCeros(month) + "/" + agregarCeros(day) + " " + agregarCeros(String(fecha.getHours())) + ":" + agregarCeros(String(fecha.getMinutes())) + ":" + agregarCeros(String(fecha.getSeconds()));
-  }
-  return null;
-}
 
 function agregarCeros(dato){
   return dato.length < 2 ? '0' + dato : dato;

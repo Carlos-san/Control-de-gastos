@@ -11,9 +11,7 @@ function entradaController($scope,$state, movimientosService, generalesService) 
   $scope.agregarEntrada = function () {
     if($scope.montoEntrada.valor > 0 || $scope.montoEntrada.detalle.length > 0){
       movimientosService.registrarMovimiento("Entrada", $scope.montoEntrada.valor, $scope.montoEntrada.detalle, null).then(function(data){
-        generalesService.generarMensajeCorto("Movimiento realizado con exito");
-        $scope.$broadcast('actualizarBaseActual');
-        $scope.$broadcast('actualizarMovimientosBase');
+        generalesService.generarMensajeCorto("Movimiento realizado con exito");        
         $state.go('app.dash');
       }, function(err){
         generalesService.generarMensajeCorto("Se produjo un error al realizar el movimiento");
