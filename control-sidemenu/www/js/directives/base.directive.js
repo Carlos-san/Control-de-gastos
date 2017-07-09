@@ -8,7 +8,9 @@ function basesDir(){
         ngModel: '=',
         idBase: '=',
         resumenBase: '=',
-        cantidadTotal: '='
+        cantidadTotal: '=',
+        fechaFinal: '=',
+        fechaInicial: '='
     },
     controller: verBaseController
   }

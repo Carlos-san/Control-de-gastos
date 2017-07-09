@@ -3,10 +3,12 @@ modulo.controller('DashCtrl', dashController);
 function dashController($scope, $cordovaSQLite, movimientosService) {
   $scope.base = {
     id: 0,
-    valor_total: 0
+    valor_total: 0,
+    fecha_inicial: "",
+    fecha_final: ""
   };
 
-  //Llamado a la carga inicial de los datos del dashboard 
+  //Llamado a la carga inicial de los datos del dashboard
   $scope.$on('$ionicView.afterEnter', function(ev) {
     if(ev.targetScope !== $scope)
         return;
