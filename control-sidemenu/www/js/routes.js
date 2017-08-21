@@ -1,8 +1,8 @@
 modulo.config(config);
 
 function config($stateProvider, $urlRouterProvider) {
+    //Manejo de rutas
     $stateProvider
-
         .state('app', {
             url: '/app',
             abstract: true,

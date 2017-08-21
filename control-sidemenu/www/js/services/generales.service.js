@@ -1,6 +1,6 @@
 modulo.service("generalesService", generalesService);
 
-function generalesService($cordovaToast){
+function generalesService(){
 
   //Muestra un mensaje por defecto
   var generarMensajeCorto = function( mensaje){
@@ -17,4 +17,4 @@ function generalesService($cordovaToast){
   }
 }
 
-generalesService.$inject = ['$cordovaToast']
+generalesService.$inject = []

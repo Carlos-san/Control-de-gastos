@@ -94,3 +94,11 @@ div.floating-menu {
   z-index:100;
   top:44px;
 }
+
+.item-content.movimiento-entrada {
+  background-color: #D0ECEA;
+}
+
+.item-content.movimiento-salida {
+  background-color: #FFEFD3;
+}

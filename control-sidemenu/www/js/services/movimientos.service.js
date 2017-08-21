@@ -111,7 +111,7 @@ modulo.service("movimientosService", movimientosService);
     var respuesta = $q.defer();
     var fechaActual = moment().format("YYYYMMDD");
 
-    var query = "SELECT id, valor_total FROM base b ";
+    var query = "SELECT id, valor_total, fecha_inicial, fecha_final FROM base b ";
     query +=    "WHERE '" + fechaActual + "' >= b.fecha_inicial ";
     query +=    "AND '" + fechaActual + "' <= b.fecha_final";
 
@@ -119,11 +119,15 @@ modulo.service("movimientosService", movimientosService);
     ejecutarQuery(query).then(function(data){
       if(data != undefined && data.rows.length > 0){
         base = data.rows.item(0);
-        respuesta.resolve(data.rows.item(0));
+        base.fecha_inicial = moment(base.fecha_inicial,"YYYYMMDD").format("DD/MM/YYYY");
+        base.fecha_final = moment(base.fecha_final,"YYYYMMDD").format("DD/MM/YYYY");
+        respuesta.resolve(base);
       }else
         respuesta.resolve({
           id: 0,
-          valor_total: 0
+          valor_total: 0,
+          fecha_inicial: "",
+          fecha_final: ""
         });
     }, function(err){
       console.log(err);
@@ -146,7 +150,6 @@ modulo.service("movimientosService", movimientosService);
       ejecutarQuery(querySalida).then(function(salida){
         var salida = calcularTotal(salida.rows);
 
-
         respuesta.resolve({
           entradas: entradas,
           salidas: salida
@@ -164,7 +167,7 @@ modulo.service("movimientosService", movimientosService);
 
   var obtenerMovimientosPorBase = function(idBase){
     var respuesta = $q.defer();
-    
+
     if(base != null){
         var query = "SELECT m.id, m.valor, m.tipo, m.fecha, m.descripcion, a.nombre FROM movimientos m ";
         query +=    "LEFT JOIN actividad a ON a.ID = m.id_actividad "
@@ -193,7 +196,7 @@ modulo.service("movimientosService", movimientosService);
     var respuesta = $q.defer();
     var fechaActual = moment().format("YYYYMMDD");
 
-    var query = "SELECT id, valor_total FROM base b ";
+    var query = "SELECT id, valor_total fecha_inicial, fecha_final FROM base b ";
     query +=    "WHERE NOT ('" + fechaActual + "' >= b.fecha_inicial ";
     query +=    "AND '" + fechaActual + "' <= b.fecha_final)";
 
@@ -201,9 +204,11 @@ modulo.service("movimientosService", movimientosService);
       if(data != undefined && data.rows.length > 0){
         var list = [];
         var cantidad = data.rows.length;
-        for(var i = 0; i < cantidad; i++)
+        for(var i = 0; i < cantidad; i++){
           list.push(data.rows.item(i));
-
+          list[i].fecha_inicial = moment(list[i].fecha_inicial,"YYYYMMDD").format("DD/MM/YYYY");
+          list[i].fecha_final = moment(list[i].fecha_final,"YYYYMMDD").format("DD/MM/YYYY");
+        }
         respuesta.resolve(list);
       }else
         respuesta.resolve([]);
