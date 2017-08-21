@@ -5,15 +5,16 @@
       </div>
   </div>
   <div ng-show="movimientos.length > 0" >
-    <ion-item class="item item-text-wrap item-avatar item-icon-right" ng-repeat="movimiento in movimientos">
-      <i class="icon ion-ios-minus-outline" ng-if="movimiento.tipo == 'Salida'"></i>
-      <i class="icon ion-ios-plus-outline" ng-if="movimiento.tipo == 'Entrada'"></i>
-      {{movimiento.descripcion}} <br />
-      $ {{movimiento.valor}}
+    <ion-item class="item item-text-wrap item-avatar item-icon-right" ng-repeat="movimiento in movimientos"
+      ng-class="{'movimiento-salida': movimiento.tipo == 'Salida', 'movimiento-entrada': movimiento.tipo == 'Entrada'}">
+        <i class="icon ion-ios-minus-outline" ng-if="movimiento.tipo == 'Salida'"></i>
+        <i class="icon ion-ios-plus-outline" ng-if="movimiento.tipo == 'Entrada'"></i>
+        {{movimiento.descripcion}} <br />
+        $ {{movimiento.valor}}
 
-      <ion-option-button class="button-assertive" ng-click="removeItem(movimiento)">
-        Quitar
-      </ion-option-button>
+        <ion-option-button class="button-assertive" ng-click="removeItem(movimiento)">
+          Quitar
+        </ion-option-button>
     </ion-item>
   </div>
 </div>

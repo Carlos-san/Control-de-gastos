@@ -1,6 +1,6 @@
 modulo.controller('DashCtrl', dashController);
 
-function dashController($scope, $cordovaSQLite, movimientosService) {
+function dashController($scope, $cordovaSQLite, $ionicPlatform, movimientosService) {
   $scope.base = {
     id: 0,
     valor_total: 0,
@@ -9,9 +9,7 @@ function dashController($scope, $cordovaSQLite, movimientosService) {
   };
 
   //Llamado a la carga inicial de los datos del dashboard
-  $scope.$on('$ionicView.afterEnter', function(ev) {
-    if(ev.targetScope !== $scope)
-        return;
+  $ionicPlatform.ready(function(){
     cargaInicialBases();
   });
 
@@ -30,4 +28,4 @@ function dashController($scope, $cordovaSQLite, movimientosService) {
   });
 }
 
-dashController.$inject = ['$scope', '$cordovaSQLite', 'movimientosService'];
+dashController.$inject = ['$scope', '$cordovaSQLite', '$ionicPlatform', 'movimientosService'];
